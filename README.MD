@@ -1,4 +1,4 @@
-# GoFrame官网
+# GoFrame框架开发示例。
 <div align=center>
 <img src="static/resource/image/cover.png" width="250"/>
 </div>
@@ -10,6 +10,6 @@
 ## GoFrame开发文档
   * [gf.johng.cn](http://gf.johng.cn)
 
-## 官网镜像仓库地址
-  * [https://gitee.com/johng/gf-home](https://gitee.com/johng/gf-home)
-  * [https://github.com/johng-cn/gf-home](https://github.com/johng-cn/gf-home)
+## 示例镜像仓库地址
+  * [https://gitee.com/johng/gf-demos](https://gitee.com/johng/gf-demos)
+  * [https://github.com/johng-cn/gf-demos](https://github.com/johng-cn/gf-demos)

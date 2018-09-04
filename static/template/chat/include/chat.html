@@ -16,12 +16,6 @@
         width:200px;
         float:left;
     }
-    #txtName {
-        width:150px;
-        display:flex;
-        flex-direction: column;
-        margin-right:10px;
-    }
     #txtContent {
         display:flex;
         flex-direction: column;
@@ -43,7 +37,6 @@
         </div>
         <div style="clear:both;height:40px;"></div>
         <div class="input-form">
-            <input type="hidden" id="txtName" placeholder="请输入您的昵称">
             <input class="form-control" id="txtContent" autofocus rows="6" placeholder="请输入发送内容(必需)">
         </div>
         <div style="text-align: center"><button class="btn btn-primary" id="btnSend">发 送</button></div>
@@ -76,7 +69,7 @@
         // 向ws服务端发送消息
         function sendMsg(name, data, type) {
             ws.send(JSON.stringify({
-                name : name,
+                name : "",
                 data : data,
                 type : type,
             }));
@@ -87,7 +80,7 @@
         try {
             // ws连接成功
             ws.onopen = function () {
-                showInfo("WebSocket Server [" + url +"] 连接成功！");
+                showInfo("WebSocket Server 连接成功！");
             };
             // ws连接关闭
             ws.onclose = function () {
@@ -95,7 +88,7 @@
                     ws.close();
                     ws = null;
                 }
-                showError("WebSocket Server [" + url +"] 连接关闭！");
+                showError("WebSocket Server 连接关闭！");
             };
             // ws连接错误
             ws.onerror = function () {
@@ -103,7 +96,7 @@
                     ws.close();
                     ws = null;
                 }
-                showError("WebSocket Server [" + url +"] 连接关闭！");
+                showError("WebSocket Server 连接关闭！");
             };
             // ws数据返回处理
             ws.onmessage = function (result) {
@@ -127,7 +120,7 @@
                 }
             };
         } catch (e) {
-            layer.alert(e.message);
+            layer.msg(e.message);
         }
 
         // 按钮点击发送数据

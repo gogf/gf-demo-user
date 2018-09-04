@@ -1,7 +1,7 @@
 package router
 
 import (
-	"gitee.com/johng/gf-cases/app/ctl/chat"
+	"gitee.com/johng/gf-demos/app/ctl/chat"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/net/ghttp"
 )

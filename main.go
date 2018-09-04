@@ -1,8 +1,8 @@
 package main
 
 import (
-	_ "gitee.com/johng/gf-cases/boot"
-	_ "gitee.com/johng/gf-cases/router"
+	_ "gitee.com/johng/gf-demos/boot"
+	_ "gitee.com/johng/gf-demos/router"
 	"gitee.com/johng/gf/g"
 )
 

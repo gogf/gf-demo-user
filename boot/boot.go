@@ -15,6 +15,7 @@ func init() {
     // 配置对象及视图对象配置
     c.AddPath("config")
     v.AddPath("static/template")
+    v.SetDelimiters("${", "}")
 
     // glog配置
     logpath := c.GetString("setting.logpath")

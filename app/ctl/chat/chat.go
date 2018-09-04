@@ -26,12 +26,14 @@ type Controller struct {
 type Msg struct {
 	Type string      `json:"type" gvalid:"type@required#消息类型不能为空"`
 	Data interface{} `json:"data" gvalid:""`
-	From string      `json:"name" gvalid:"name@max-length:21#用户昵称最长为21字节"`
+	From string      `json:"name" gvalid:""`
 }
 
 const (
 	// SendInterval 允许客户端发送聊天消息的间隔时间(毫秒)
-	SendInterval = 2000
+	SendInterval  = 2000
+	nameCheckRule = "required|max-length:21"
+	nameCheckMsg  = "取一个响当当的名字吧|用户昵称最长为21字节"
 )
 
 var (
@@ -45,7 +47,7 @@ var (
 
 // Index 聊天室首页，只显示模板内容
 func (c *Controller) Index() {
-	if c.Session.Contains("name") {
+	if c.Session.Contains("chat_name") {
 		c.View.Assign("tplMain", "chat/include/chat.html")
 	} else {
 		c.View.Assign("tplMain", "chat/include/main.html")
@@ -53,9 +55,23 @@ func (c *Controller) Index() {
 	c.View.Display("chat/index.html")
 }
 
-// SetName 设置响铛铛的名字
+// SetName 设置响当当的名字
 func (c *Controller) SetName() {
-
+	name := c.Request.Get("name")
+	name  = ghtml.Entities(name)
+    c.Session.Set("chat_name_temp", name)
+    if err := gvalid.Check(name, nameCheckRule, nameCheckMsg); err != nil {
+        c.Session.Set("chat_name_error", err.String())
+        c.Response.RedirectBack()
+    } else if names.Contains(name) {
+        c.Session.Set("chat_name_error", "用户昵称已被占用")
+        c.Response.RedirectBack()
+    } else {
+        c.Session.Set("chat_name", name)
+        c.Session.Remove("chat_name_temp")
+        c.Session.Remove("chat_name_error")
+        c.Response.RedirectTo("/chat")
+    }
 }
 
 // WebSocket 接口
@@ -70,9 +86,15 @@ func (c *Controller) WebSocket() {
 		return
 	}
 
+	name := c.Session.GetString("chat_name")
+	if name == "" {
+		name = c.Request.RemoteAddr
+	}
+
 	// 初始化时设置用户昵称为当前链接信息
-	names.Add(c.Request.RemoteAddr)
-	users.Set(c.ws, c.Request.RemoteAddr)
+	names.Add(name)
+	users.Set(c.ws, name)
+
 	// 初始化后向所有客户端发送上线消息
 	c.writeUsers()
 
@@ -82,7 +104,7 @@ func (c *Controller) WebSocket() {
 		if err != nil {
 			// 如果失败，那么表示断开，这里清除用户信息
 			// 为简化演示，这里不实现失败重连机制
-			names.Remove(gconv.String(users.Get(c.ws)))
+			names.Remove(name)
 			users.Remove(c.ws)
 			// 通知所有客户端当前用户已下线
 			c.writeUsers()
@@ -98,21 +120,7 @@ func (c *Controller) WebSocket() {
 			c.write(Msg{"error", e.String(), ""})
 			continue
 		}
-		// 用户昵称存储
-		name := ghtml.SpecialChars(msg.From)
-		if name != "" {
-			if v := users.Get(c.ws); v == nil || gconv.String(v) == c.Request.RemoteAddr {
-				if names.Contains(name) {
-					c.write(Msg{"error", "用户昵称已存在", ""})
-					continue
-				}
-				users.Set(c.ws, name)
-				names.Add(name)
-				names.Remove(c.Request.RemoteAddr)
-				c.writeUsers()
-			}
-		}
-		msg.From = gconv.String(users.Get(c.ws))
+		msg.From = name
 
 		// 日志记录
 		glog.Cat("chat").Println(msg)

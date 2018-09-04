@@ -1,122 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>gf websocket echo server</title>
+    <title>ChatRoom - demo powered by GoFrame</title>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="icon" href="/static/resource/image/favicon.ico" type="image/x-icon">
-    <style type="text/css">
-
-    </style>
+    <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <div class="list-group" id="divShow"></div>
-    <div>
-        <div><input class="form-control" id="txtName" maxlength="7" placeholder="请输入昵称"></div>
-        <div><input class="form-control" id="txtContent" autofocus rows="6" placeholder="请输入发送内容"></div>
-        <div><button class="btn btn-default" id="btnSend" style="margin-top:15px">发 送</button></div>
-    </div>
-</div>
-<script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
-<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.ie8polyfill.min.js"></script>
-<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
+    {{include .tplMain .}}
+    <script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+    <script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.ie8polyfill.min.js"></script>
+    <script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
+    <script src="/static/plugin/layer-3.1.1/layer.js"></script>
 </body>
 </html>
-
-<script type="application/javascript">
-    // 显示提示信息
-    function showInfo(content) {
-        $("<div class=\"list-group-item list-group-item-info\">" + content + "</div>").appendTo("#divShow")
-    }
-    // 显示警告信息
-    function showWaring(content) {
-        $("<div class=\"list-group-item list-group-item-warning\">" + content + "</div>").appendTo("#divShow")
-    }
-    // 显示成功信息
-    function showSuccess(content) {
-        $("<div class=\"list-group-item list-group-item-success\">" + content + "</div>").appendTo("#divShow")
-    }
-    // 显示错误信息
-    function showError(content) {
-        $("<div class=\"list-group-item list-group-item-danger\">" + content + "</div>").appendTo("#divShow")
-    }
-
-    $(function () {
-        // 向ws服务端发送消息
-        function sendMsg(name, data, type) {
-            ws.send(JSON.stringify({
-                name : name,
-                data : data,
-                type : type,
-            }));
-        }
-
-        var url = "ws://" + window.location.origin.replace("http://", "") + "/chat/websocket";
-        var ws  = new WebSocket(url);
-        try {
-            // ws连接成功
-            ws.onopen = function () {
-                showInfo("WebSocket Server [" + url +"] 连接成功！");
-            };
-            // ws连接关闭
-            ws.onclose = function () {
-                if (ws) {
-                    ws.close();
-                    ws = null;
-                }
-                showError("WebSocket Server [" + url +"] 连接关闭！");
-            };
-            // ws连接错误
-            ws.onerror = function () {
-                if (ws) {
-                    ws.close();
-                    ws = null;
-                }
-                showError("WebSocket Server [" + url +"] 连接关闭！");
-            };
-            // ws数据返回处理
-            ws.onmessage = function (result) {
-                var msg = JSON.parse(result.data);
-                switch (msg.type) {
-                    case "send":
-                        showSuccess(msg.data);
-                        break;
-
-                    case "stat":
-                        break;
-
-                    case "error":
-                        showError(msg.data);
-                        break;
-                }
-            };
-        } catch (e) {
-            alert(e.message);
-        }
-
-        // 按钮点击发送数据
-        $("#btnSend").on("click", function () {
-            if (ws == null) {
-                showError("WebSocket Server [" + url +"] 连接失败，请F5刷新页面!");
-                return;
-            }
-            var content = $.trim($("#txtContent").val()).replace("/[\n]/g", "");
-            if (content.length <= 0) {
-                alert("请输入发送内容!");
-                return;
-            }
-            sendMsg($("#txtName").val(), $("#txtContent").val(), "send")
-            $("#txtContent").val("");
-        });
-
-        // 回车按钮触发发送点击事件
-        $("#txtContent").on("keydown", function (event) {
-            if (event.keyCode == 13) {
-                $("#btnSend").trigger("click");
-            }
-        });
-    })
-
-</script>

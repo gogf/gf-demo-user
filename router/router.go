@@ -13,5 +13,6 @@ func init() {
     s.BindHandler("/favicon.ico", func(r *ghttp.Request) {
         r.Response.ServeFile("/static/resource/image/favicon.ico")
     })
+    // 聊天室示例程序使用**控制器注册方式**
     s.BindController("/chat", new(ctl_chat.Controller))
 }

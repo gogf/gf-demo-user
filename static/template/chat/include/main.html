@@ -1,0 +1,35 @@
+<style type="text/css">
+    .container {
+        margin-top:10%;
+    }
+    .container, .input-form {
+        text-align: center;
+    }
+    #txtName {
+        width:300px;
+        display:inline;
+        font-size:26px;
+        height:70px;
+        padding:10px;
+        text-align: center;
+        margin-top:20px;
+    }
+    #btnSend {
+        margin-top:15px;
+        width: 100px;
+        height: 50px;
+        font-size:20px;
+    }
+</style>
+
+<form method="post" action="/chat/setname">
+<div class="container">
+    <div>
+        <div class="input-form">
+            <div>在开始之前，我们先来设置一个响当当的大名吧！</div>
+            <input class="form-control" id="txtName" placeholder="您的大名">
+        </div>
+        <div style="text-align: center"><button class="btn btn-primary" type="submit" id="btnSend">提 交</button></div>
+    </div>
+</div>
+</form>

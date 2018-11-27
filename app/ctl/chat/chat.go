@@ -174,7 +174,7 @@ func (c *Controller) writeGroup(msg Msg) error {
 
 // 向客户端返回用户列表
 func (c *Controller) writeUsers() error {
-	array := garray.NewSortedStringArray(0, 0, false)
+	array := garray.NewSortedStringArray(0, false)
 	names.Iterator(func(v string) bool {
 		array.Add(v)
 		return true

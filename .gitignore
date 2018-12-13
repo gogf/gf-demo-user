@@ -17,3 +17,4 @@ cbuild
 config/config.toml
 main
 .vscode
+go.sum

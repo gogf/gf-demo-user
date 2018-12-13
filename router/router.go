@@ -1,7 +1,7 @@
 package router
 
 import (
-	"gitee.com/johng/gf-demos/app/ctl/chat"
+	"gitee.com/johng/gf-demos/app/controller/chat"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/net/ghttp"
 )
@@ -14,5 +14,5 @@ func init() {
 		r.Response.ServeFile("/static/resource/image/favicon.ico")
 	})
 	// 聊天室示例程序使用**控制器注册方式**
-	s.BindController("/chat", new(ctlchat.Controller))
+	s.BindController("/chat", new(ctl_chat.Controller))
 }

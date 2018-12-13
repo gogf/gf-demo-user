@@ -1,4 +1,4 @@
-package ctlchat
+package ctl_chat
 
 import (
 	"fmt"
@@ -127,23 +127,23 @@ func (c *Controller) WebSocket() {
 
 		// WS操作类型
 		switch msg.Type {
-		// 发送消息
-		case "send":
-			// 发送间隔检查
-			intervalKey := fmt.Sprintf("%p", c.ws)
-			if !cache.SetIfNotExist(intervalKey, struct{}{}, SendInterval) {
-				c.write(Msg{"error", "您的消息发送得过于频繁，请休息下再重试", ""})
-				continue
-			}
-			// 有消息时，群发消息
-			if msg.Data != nil {
-				if err = c.writeGroup(
-					Msg{"send",
-						ghtml.SpecialChars(gconv.String(msg.Data)),
-						ghtml.SpecialChars(msg.From)}); err != nil {
-					glog.Error(err)
+			// 发送消息
+			case "send":
+				// 发送间隔检查
+				intervalKey := fmt.Sprintf("%p", c.ws)
+				if !cache.SetIfNotExist(intervalKey, struct{}{}, SendInterval) {
+					c.write(Msg{"error", "您的消息发送得过于频繁，请休息下再重试", ""})
+					continue
 				}
-			}
+				// 有消息时，群发消息
+				if msg.Data != nil {
+					if err = c.writeGroup(
+						Msg{"send",
+							ghtml.SpecialChars(gconv.String(msg.Data)),
+							ghtml.SpecialChars(msg.From)}); err != nil {
+						glog.Error(err)
+					}
+				}
 		}
 	}
 }

@@ -31,7 +31,7 @@ type Msg struct {
 
 const (
 	// SendInterval 允许客户端发送聊天消息的间隔时间(毫秒)
-	SendInterval  = 2000
+	SendInterval  = 1000
 	nameCheckRule = "required|max-length:21"
 	nameCheckMsg  = "取一个响当当的名字吧|用户昵称最长为21字节"
 )

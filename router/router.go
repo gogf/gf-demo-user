@@ -1,9 +1,9 @@
 package router
 
 import (
-    "gitee.com/johng/gf-demos/app/controller/chat"
-    "gitee.com/johng/gf-demos/app/controller/user"
-    "gitee.com/johng/gf/g"
+    "github.com/gogf/gf-demos/app/controller/chat"
+    "github.com/gogf/gf-demos/app/controller/user"
+    "github.com/gogf/gf/g"
 )
 
 // 统一路由注册.

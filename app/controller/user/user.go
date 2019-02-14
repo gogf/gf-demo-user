@@ -1,10 +1,10 @@
 package ctl_user
 
 import (
-    "gitee.com/johng/gf-demos/app/library/response"
-    "gitee.com/johng/gf-demos/app/library/user"
-    "gitee.com/johng/gf/g/net/ghttp"
-    "gitee.com/johng/gf/g/util/gvalid"
+    "github.com/gogf/gf-demos/app/library/response"
+    "github.com/gogf/gf-demos/app/library/user"
+    "github.com/gogf/gf/g/net/ghttp"
+    "github.com/gogf/gf/g/util/gvalid"
 )
 
 // 用户API管理对象

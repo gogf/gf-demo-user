@@ -1,3 +1,3 @@
-module gitee.com/johng/gf-demos
+module github.com/gogf/gf-demos
 
-require gitee.com/johng/gf latest
+require github.com/gogf/gf latest

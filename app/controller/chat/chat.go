@@ -3,17 +3,17 @@ package ctl_chat
 import (
 	"fmt"
 
-	"gitee.com/johng/gf/g/container/garray"
-	"gitee.com/johng/gf/g/container/gmap"
-	"gitee.com/johng/gf/g/container/gset"
-	"gitee.com/johng/gf/g/encoding/ghtml"
-	"gitee.com/johng/gf/g/encoding/gjson"
-	"gitee.com/johng/gf/g/frame/gmvc"
-	"gitee.com/johng/gf/g/net/ghttp"
-	"gitee.com/johng/gf/g/os/gcache"
-	"gitee.com/johng/gf/g/os/glog"
-	"gitee.com/johng/gf/g/util/gconv"
-	"gitee.com/johng/gf/g/util/gvalid"
+	"github.com/gogf/gf/g/container/garray"
+	"github.com/gogf/gf/g/container/gmap"
+	"github.com/gogf/gf/g/container/gset"
+	"github.com/gogf/gf/g/encoding/ghtml"
+	"github.com/gogf/gf/g/encoding/gjson"
+	"github.com/gogf/gf/g/frame/gmvc"
+	"github.com/gogf/gf/g/net/ghttp"
+	"github.com/gogf/gf/g/os/gcache"
+	"github.com/gogf/gf/g/os/glog"
+	"github.com/gogf/gf/g/util/gconv"
+	"github.com/gogf/gf/g/util/gvalid"
 )
 
 // Controller 控制器结构体
@@ -174,7 +174,7 @@ func (c *Controller) writeGroup(msg Msg) error {
 
 // 向客户端返回用户列表
 func (c *Controller) writeUsers() error {
-	array := garray.NewSortedStringArray(0, false)
+	array := garray.NewSortedStringArray(false)
 	names.Iterator(func(v string) bool {
 		array.Add(v)
 		return true

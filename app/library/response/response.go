@@ -20,5 +20,5 @@ func Json(r *ghttp.Request, err int, msg string, data...interface{}) {
         "msg"  : msg,
         "data" : responseData,
     })
-    r.Exit()
+    r.ExitAll()
 }

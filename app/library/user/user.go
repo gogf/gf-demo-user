@@ -15,7 +15,7 @@ const (
 
 var (
     // 表对象
-    table = g.DB().Table("user")
+    table = g.DB().Table("user").Safe()
 )
 
 // 用户注册

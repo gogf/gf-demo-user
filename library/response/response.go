@@ -1,4 +1,4 @@
-package lib_response
+package response
 
 import (
     "github.com/gogf/gf/g"

@@ -1,8 +1,8 @@
 package router
 
 import (
-    "github.com/gogf/gf-demos/app/controller/chat"
-    "github.com/gogf/gf-demos/app/controller/user"
+    "github.com/gogf/gf-demos/app/api/chat"
+    "github.com/gogf/gf-demos/app/api/user"
     "github.com/gogf/gf/g"
 )
 
@@ -14,8 +14,8 @@ func init() {
 	s.SetRewrite("/favicon.ico", "/resource/image/favicon.ico")
 
     // 用户模块 路由注册 - 使用执行对象注册方式
-    s.BindObject("/user", new(ctl_user.Controller))
+    s.BindObject("/user", new(api_user.Controller))
 
 	// 聊天模块 路由注册 - 使用控制器注册方式
-	s.BindController("/chat", new(ctl_chat.Controller))
+	s.BindController("/chat", new(api_chat.Controller))
 }

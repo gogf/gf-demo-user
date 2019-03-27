@@ -1,8 +1,8 @@
-package ctl_user
+package api_user
 
 import (
-    "github.com/gogf/gf-demos/app/library/response"
-    "github.com/gogf/gf-demos/app/library/user"
+    "github.com/gogf/gf-demos/app/service/user"
+    "github.com/gogf/gf-demos/library/response"
     "github.com/gogf/gf/g/net/ghttp"
     "github.com/gogf/gf/g/util/gvalid"
 )
@@ -12,7 +12,7 @@ type Controller struct { }
 
 // 用户注册接口
 func (c *Controller) SignUp(r *ghttp.Request) {
-    if err := lib_user.SignUp(r.GetPostMap()); err != nil {
+    if err := svr_user.SignUp(r.GetPostMap()); err != nil {
         lib_response.Json(r, 1, err.Error())
     } else {
         lib_response.Json(r, 0, "ok")
@@ -33,7 +33,7 @@ func (c *Controller) SignIn(r *ghttp.Request) {
     if e := gvalid.CheckMap(data, rules, msgs); e != nil {
         lib_response.Json(r, 1, e.String())
     }
-    if err := lib_user.SignIn(data["passport"], data["password"], r.Session); err != nil {
+    if err := svr_user.SignIn(data["passport"], data["password"], r.Session); err != nil {
         lib_response.Json(r, 1, err.Error())
     } else {
         lib_response.Json(r, 0, "ok")
@@ -42,7 +42,7 @@ func (c *Controller) SignIn(r *ghttp.Request) {
 
 // 判断用户是否已经登录
 func (c *Controller) IsSignedIn(r *ghttp.Request) {
-    if lib_user.IsSignedIn(r.Session) {
+    if svr_user.IsSignedIn(r.Session) {
         lib_response.Json(r, 0, "ok")
     } else {
         lib_response.Json(r, 1, "")
@@ -51,7 +51,7 @@ func (c *Controller) IsSignedIn(r *ghttp.Request) {
 
 // 用户注销/退出接口
 func (c *Controller) SignOut(r *ghttp.Request) {
-    lib_user.SignOut(r.Session)
+    svr_user.SignOut(r.Session)
     lib_response.Json(r, 0, "ok")
 }
 
@@ -61,7 +61,7 @@ func (c *Controller) CheckPassport(r *ghttp.Request) {
     if e := gvalid.Check(passport, "required", "请输入账号"); e != nil {
         lib_response.Json(r, 1, e.String())
     }
-    if lib_user.CheckPassport(passport) {
+    if svr_user.CheckPassport(passport) {
         lib_response.Json(r, 0, "ok")
     }
     lib_response.Json(r, 1, "账号已经存在")
@@ -73,7 +73,7 @@ func (c *Controller) CheckNickName(r *ghttp.Request) {
     if e := gvalid.Check(nickname, "required", "请输入昵称"); e != nil {
         lib_response.Json(r, 1, e.String())
     }
-    if lib_user.CheckNickName(r.Get("nickname")) {
+    if svr_user.CheckNickName(r.Get("nickname")) {
         lib_response.Json(r, 0, "ok")
     }
     lib_response.Json(r, 1, "昵称已经存在")

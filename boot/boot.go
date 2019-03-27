@@ -12,7 +12,7 @@ func init() {
     c := g.Config()
     s := g.Server()
 
-    // 配置对象及视图对象配置
+    // 模板引擎配置
     v.AddPath("template")
     v.SetDelimiters("${", "}")
 

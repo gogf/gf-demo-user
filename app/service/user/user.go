@@ -36,7 +36,7 @@ func SignUp(data g.MapStrStr) error {
     if !CheckPassport(data["passport"]) {
         return errors.New(fmt.Sprintf("账号 %s 已经存在", data["passport"]))
     }
-    if !CheckPassport(data["nickname"]) {
+    if !CheckNickName(data["nickname"]) {
         return errors.New(fmt.Sprintf("昵称 %s 已经存在", data["nickname"]))
     }
     // 记录账号创建/注册时间

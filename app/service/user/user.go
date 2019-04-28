@@ -1,4 +1,4 @@
-package svr_user
+package s_user
 
 import (
     "errors"

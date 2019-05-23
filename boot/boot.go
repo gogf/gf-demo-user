@@ -19,7 +19,7 @@ func init() {
     // glog配置
     logpath := c.GetString("setting.logpath")
     glog.SetPath(logpath)
-    glog.SetStdPrint(true)
+    glog.SetStdoutPrint(true)
 
     // Web Server配置
     s.SetServerRoot("public")

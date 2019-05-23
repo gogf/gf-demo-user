@@ -75,6 +75,7 @@ func SignOut(session *ghttp.Session) {
 // 检查账号是否符合规范(目前仅检查唯一性),存在返回false,否则true
 func CheckPassport(passport string) bool {
     if i, err := table.Where("passport", passport).Count(); err != nil {
+    	panic(err)
         return false
     } else {
         return i == 0

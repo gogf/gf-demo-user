@@ -58,20 +58,20 @@ func (c *Controller) Index() {
 // SetName 设置响当当的名字
 func (c *Controller) SetName() {
 	name := c.Request.Get("name")
-	name  = ghtml.Entities(name)
-    c.Session.Set("chat_name_temp", name)
-    if err := gvalid.Check(name, nameCheckRule, nameCheckMsg); err != nil {
-        c.Session.Set("chat_name_error", err.String())
-        c.Response.RedirectBack()
-    } else if names.Contains(name) {
-        c.Session.Set("chat_name_error", "用户昵称已被占用")
-        c.Response.RedirectBack()
-    } else {
-        c.Session.Set("chat_name", name)
-        c.Session.Remove("chat_name_temp")
-        c.Session.Remove("chat_name_error")
-        c.Response.RedirectTo("/chat")
-    }
+	name = ghtml.Entities(name)
+	c.Session.Set("chat_name_temp", name)
+	if err := gvalid.Check(name, nameCheckRule, nameCheckMsg); err != nil {
+		c.Session.Set("chat_name_error", err.String())
+		c.Response.RedirectBack()
+	} else if names.Contains(name) {
+		c.Session.Set("chat_name_error", "用户昵称已被占用")
+		c.Response.RedirectBack()
+	} else {
+		c.Session.Set("chat_name", name)
+		c.Session.Remove("chat_name_temp")
+		c.Session.Remove("chat_name_error")
+		c.Response.RedirectTo("/chat")
+	}
 }
 
 // WebSocket 接口
@@ -127,23 +127,23 @@ func (c *Controller) WebSocket() {
 
 		// WS操作类型
 		switch msg.Type {
-			// 发送消息
-			case "send":
-				// 发送间隔检查
-				intervalKey := fmt.Sprintf("%p", c.ws)
-				if !cache.SetIfNotExist(intervalKey, struct{}{}, SendInterval) {
-					c.write(Msg{"error", "您的消息发送得过于频繁，请休息下再重试", ""})
-					continue
+		// 发送消息
+		case "send":
+			// 发送间隔检查
+			intervalKey := fmt.Sprintf("%p", c.ws)
+			if !cache.SetIfNotExist(intervalKey, struct{}{}, SendInterval) {
+				c.write(Msg{"error", "您的消息发送得过于频繁，请休息下再重试", ""})
+				continue
+			}
+			// 有消息时，群发消息
+			if msg.Data != nil {
+				if err = c.writeGroup(
+					Msg{"send",
+						ghtml.SpecialChars(gconv.String(msg.Data)),
+						ghtml.SpecialChars(msg.From)}); err != nil {
+					glog.Error(err)
 				}
-				// 有消息时，群发消息
-				if msg.Data != nil {
-					if err = c.writeGroup(
-						Msg{"send",
-							ghtml.SpecialChars(gconv.String(msg.Data)),
-							ghtml.SpecialChars(msg.From)}); err != nil {
-						glog.Error(err)
-					}
-				}
+			}
 		}
 	}
 }

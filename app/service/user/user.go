@@ -1,6 +1,7 @@
 package s_user
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/gogf/gf/g"
@@ -57,7 +58,7 @@ func IsSignedIn(session *ghttp.Session) bool {
 // 用户登录，成功返回用户信息，否则返回nil; passport应当会md5值字符串
 func SignIn(passport, password string, session *ghttp.Session) error {
 	record, err := table.Where("passport=? and password=?", passport, password).One()
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		return err
 	}
 	if record == nil {
@@ -74,7 +75,7 @@ func SignOut(session *ghttp.Session) {
 
 // 检查账号是否符合规范(目前仅检查唯一性),存在返回false,否则true
 func CheckPassport(passport string) bool {
-	if i, err := table.Where("passport", passport).Count(); err != nil {
+	if i, err := table.Where("passport", passport).Count(); err != nil && err != sql.ErrNoRows {
 		return false
 	} else {
 		return i == 0
@@ -83,7 +84,7 @@ func CheckPassport(passport string) bool {
 
 // 检查昵称是否符合规范(目前仅检查唯一性),存在返回false,否则true
 func CheckNickName(nickname string) bool {
-	if i, err := table.Where("nickname", nickname).Count(); err != nil {
+	if i, err := table.Where("nickname", nickname).Count(); err != nil && err != sql.ErrNoRows {
 		return false
 	} else {
 		return i == 0

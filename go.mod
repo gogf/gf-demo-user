@@ -1,3 +1,3 @@
 module github.com/gogf/gf-demos
 
-require github.com/gogf/gf v1.6.14
+require github.com/gogf/gf v1.8.0

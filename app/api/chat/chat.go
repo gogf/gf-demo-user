@@ -1,4 +1,4 @@
-package a_chat
+package chat
 
 import (
 	"fmt"

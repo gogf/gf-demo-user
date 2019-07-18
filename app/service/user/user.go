@@ -1,4 +1,4 @@
-package s_user
+package user
 
 import (
 	"database/sql"

@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gogf/gf-demos/app/api/chat"
 	"github.com/gogf/gf-demos/app/api/user"
-	"github.com/gogf/gf/g"
+	"github.com/gogf/gf/frame/g"
 )
 
 // 统一路由注册.

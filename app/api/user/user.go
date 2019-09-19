@@ -3,8 +3,8 @@ package user
 import (
 	"github.com/gogf/gf-demos/app/service/user"
 	"github.com/gogf/gf-demos/library/response"
-	"github.com/gogf/gf/g/net/ghttp"
-	"github.com/gogf/gf/g/util/gvalid"
+	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/util/gvalid"
 )
 
 // 用户API管理对象
@@ -12,7 +12,7 @@ type Controller struct{}
 
 // 用户注册接口
 func (c *Controller) SignUp(r *ghttp.Request) {
-	if err := user.SignUp(r.GetPostMap()); err != nil {
+	if err := user.SignUp(r.GetPostMapStrStr()); err != nil {
 		response.Json(r, 1, err.Error())
 	} else {
 		response.Json(r, 0, "ok")
@@ -21,7 +21,7 @@ func (c *Controller) SignUp(r *ghttp.Request) {
 
 // 用户登录接口
 func (c *Controller) SignIn(r *ghttp.Request) {
-	data := r.GetPostMap()
+	data := r.GetPostMapStrStr()
 	rules := map[string]string{
 		"passport": "required",
 		"password": "required",
@@ -57,7 +57,7 @@ func (c *Controller) SignOut(r *ghttp.Request) {
 
 // 检测用户账号接口(唯一性校验)
 func (c *Controller) CheckPassport(r *ghttp.Request) {
-	passport := r.Get("passport")
+	passport := r.GetString("passport")
 	if e := gvalid.Check(passport, "required", "请输入账号"); e != nil {
 		response.Json(r, 1, e.String())
 	}
@@ -73,7 +73,7 @@ func (c *Controller) CheckNickName(r *ghttp.Request) {
 	if e := gvalid.Check(nickname, "required", "请输入昵称"); e != nil {
 		response.Json(r, 1, e.String())
 	}
-	if user.CheckNickName(r.Get("nickname")) {
+	if user.CheckNickName(r.GetString("nickname")) {
 		response.Json(r, 0, "ok")
 	}
 	response.Json(r, 1, "昵称已经存在")

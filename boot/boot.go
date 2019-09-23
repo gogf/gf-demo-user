@@ -24,7 +24,7 @@ func init() {
 	// Web Server配置
 	s.SetServerRoot("public")
 	s.SetLogPath(logpath)
-	s.SetNameToUriType(ghttp.NAME_TO_URI_TYPE_ALLLOWER)
+	s.SetNameToUriType(ghttp.URI_TYPE_ALLLOWER)
 	s.SetErrorLogEnabled(true)
 	s.SetAccessLogEnabled(true)
 	s.SetPort(8199)

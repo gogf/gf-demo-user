@@ -25,7 +25,5 @@ func init() {
 	s.SetServerRoot("public")
 	s.SetLogPath(logpath)
 	s.SetNameToUriType(ghttp.URI_TYPE_ALLLOWER)
-	s.SetErrorLogEnabled(true)
-	s.SetAccessLogEnabled(true)
 	s.SetPort(8199)
 }

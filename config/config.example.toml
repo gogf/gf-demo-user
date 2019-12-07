@@ -1,7 +1,29 @@
-# 应用系统设置
-[setting]
-    logpath = "/tmp/log/gf-demos"
+# HTTP Server配置
+[server]
+	Address       = ":8199"
+	ServerRoot    = "public"
+	ServerAgent   = "gf-demos"
+	LogPath       = "/tmp/log/gf-demos/server"
+	NameToUriType = 2
+
+# 全局日志配置
+[logger]
+    Path   = "/tmp/log/gf-demos"
+    Level  = "all"
+    Stdout = true
+
+# 模板引擎配置
+[viewer]
+    Path        = ["template"]
+    DefaultFile = "index.html"
+    Delimiters  =  ["${", "}"]
 
 # 数据库连接
 [database]
-    link = "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
+    link  = "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
+    debug = true
+    # 数据库日志对象配置
+    [database.logger]
+        Path   = "/tmp/log/gf-demos/sql"
+        Level  = "all"
+        Stdout = true

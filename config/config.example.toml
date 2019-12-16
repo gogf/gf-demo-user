@@ -14,7 +14,7 @@
 
 # 模板引擎配置
 [viewer]
-    Path        = ["template"]
+    Path        = "template"
     DefaultFile = "index.html"
     Delimiters  =  ["${", "}"]
 

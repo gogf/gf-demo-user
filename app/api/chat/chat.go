@@ -2,6 +2,8 @@ package chat
 
 import (
 	"fmt"
+	"github.com/gogf/gf/frame/g"
+	"time"
 
 	"github.com/gogf/gf/container/garray"
 	"github.com/gogf/gf/container/gmap"
@@ -11,12 +13,12 @@ import (
 	"github.com/gogf/gf/frame/gmvc"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gcache"
-	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/gogf/gf/util/gvalid"
 )
 
-// Controller 控制器结构体
+// Controller 控制器结构体。
+// 该结构体用于通过控制器方式注册，未来不再推荐使用控制器路由注册方式。
 type Controller struct {
 	gmvc.Controller
 	ws *ghttp.WebSocket
@@ -24,28 +26,28 @@ type Controller struct {
 
 // Msg 消息结构体
 type Msg struct {
-	Type string      `json:"type" gvalid:"type@required#消息类型不能为空"`
-	Data interface{} `json:"data" gvalid:""`
-	From string      `json:"name" gvalid:""`
+	Type string      `json:"type" v:"type@required#消息类型不能为空"`
+	Data interface{} `json:"data" v:""`
+	From string      `json:"name" v:""`
 }
 
 const (
-	// SendInterval 允许客户端发送聊天消息的间隔时间(毫秒)
-	SendInterval  = 1000
+	// SendInterval 允许客户端发送聊天消息的间隔时间
+	SendInterval  = time.Second
 	nameCheckRule = "required|max-length:21"
 	nameCheckMsg  = "取一个响当当的名字吧|用户昵称最长为21字节"
 )
 
 var (
 	// 使用默认的并发安全Map
-	users = gmap.New()
+	users = gmap.New(true)
 	// 使用并发安全的Set，用以用户昵称唯一性校验
-	names = gset.NewStrSet()
+	names = gset.NewStrSet(true)
 	// 使用特定的缓存对象，不使用全局缓存对象
 	cache = gcache.New()
 )
 
-// Index 聊天室首页，只显示模板内容
+// Index 聊天室首页，只显示模板内容.
 func (c *Controller) Index() {
 	if c.Session.Contains("chat_name") {
 		c.View.Assign("tplMain", "chat/include/chat.html")
@@ -82,7 +84,7 @@ func (c *Controller) WebSocket() {
 	if ws, err := c.Request.WebSocket(); err == nil {
 		c.ws = ws
 	} else {
-		glog.Error(err)
+		g.Log().Error(err)
 		return
 	}
 
@@ -123,7 +125,7 @@ func (c *Controller) WebSocket() {
 		msg.From = name
 
 		// 日志记录
-		glog.Cat("chat").Println(msg)
+		g.Log().Cat("chat").Println(msg)
 
 		// WS操作类型
 		switch msg.Type {
@@ -141,14 +143,15 @@ func (c *Controller) WebSocket() {
 					Msg{"send",
 						ghtml.SpecialChars(gconv.String(msg.Data)),
 						ghtml.SpecialChars(msg.From)}); err != nil {
-					glog.Error(err)
+					g.Log().Error(err)
 				}
 			}
 		}
 	}
 }
 
-// 向客户端写入消息
+// 向客户端写入消息。
+// 内部方法不会自动注册到路由中。
 func (c *Controller) write(msg Msg) error {
 	b, err := gjson.Encode(msg)
 	if err != nil {
@@ -157,7 +160,8 @@ func (c *Controller) write(msg Msg) error {
 	return c.ws.WriteMessage(ghttp.WS_MSG_TEXT, []byte(b))
 }
 
-// 群发消息
+// 向所有客户端群发消息。
+// 内部方法不会自动注册到路由中。
 func (c *Controller) writeGroup(msg Msg) error {
 	b, err := gjson.Encode(msg)
 	if err != nil {
@@ -172,7 +176,8 @@ func (c *Controller) writeGroup(msg Msg) error {
 	return nil
 }
 
-// 向客户端返回用户列表
+// 向客户端返回用户列表。
+// 内部方法不会自动注册到路由中。
 func (c *Controller) writeUsers() error {
 	array := garray.NewSortedStrArray()
 	names.Iterator(func(v string) bool {

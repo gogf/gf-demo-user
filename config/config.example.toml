@@ -1,10 +1,11 @@
 # HTTP Server配置
 [server]
-	Address       = ":8199"
-	ServerRoot    = "public"
-	ServerAgent   = "gf-demos"
-	LogPath       = "/tmp/log/gf-demos/server"
-	NameToUriType = 2
+	Address        = ":8199"
+	ServerRoot     = "public"
+	ServerAgent    = "gf-demos"
+	LogPath        = "/tmp/log/gf-demos/server"
+	NameToUriType  = 2
+	RouteOverWrite = true
 
 # 全局日志配置
 [logger]

@@ -78,3 +78,8 @@ func (c *Controller) CheckNickName(r *ghttp.Request) {
 	}
 	response.Json(r, 1, "昵称已经存在")
 }
+
+// 获取用户详情
+func (c *Controller) Profile(r *ghttp.Request) {
+	response.Json(r, 0, "", user.GetProfile(r.Session))
+}

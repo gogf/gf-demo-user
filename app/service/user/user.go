@@ -1,9 +1,9 @@
 package user
 
 import (
-	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/gogf/gf-demos/app/model/user"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gtime"
@@ -12,11 +12,6 @@ import (
 
 const (
 	USER_SESSION_MARK = "user_info"
-)
-
-var (
-	// 表对象
-	table = g.DB().Table("user").Safe()
 )
 
 // 用户注册
@@ -44,7 +39,7 @@ func SignUp(data g.MapStrStr) error {
 	if _, ok := data["create_time"]; !ok {
 		data["create_time"] = gtime.Now().String()
 	}
-	if _, err := table.Filter().Data(data).Save(); err != nil {
+	if _, err := user.Model.Filter().Data(data).Save(); err != nil {
 		return err
 	}
 	return nil
@@ -57,14 +52,14 @@ func IsSignedIn(session *ghttp.Session) bool {
 
 // 用户登录，成功返回用户信息，否则返回nil; passport应当会md5值字符串
 func SignIn(passport, password string, session *ghttp.Session) error {
-	record, err := table.Where("passport=? and password=?", passport, password).One()
-	if err != nil && err != sql.ErrNoRows {
+	one, err := user.FindOne("passport=? and password=?", passport, password)
+	if err != nil {
 		return err
 	}
-	if record == nil {
+	if one == nil {
 		return errors.New("账号或密码错误")
 	}
-	session.Set(USER_SESSION_MARK, record)
+	session.Set(USER_SESSION_MARK, one)
 	return nil
 }
 
@@ -75,7 +70,7 @@ func SignOut(session *ghttp.Session) {
 
 // 检查账号是否符合规范(目前仅检查唯一性),存在返回false,否则true
 func CheckPassport(passport string) bool {
-	if i, err := table.Where("passport", passport).Count(); err != nil && err != sql.ErrNoRows {
+	if i, err := user.FindCount("passport", passport); err != nil {
 		return false
 	} else {
 		return i == 0
@@ -84,9 +79,15 @@ func CheckPassport(passport string) bool {
 
 // 检查昵称是否符合规范(目前仅检查唯一性),存在返回false,否则true
 func CheckNickName(nickname string) bool {
-	if i, err := table.Where("nickname", nickname).Count(); err != nil && err != sql.ErrNoRows {
+	if i, err := user.FindCount("nickname", nickname); err != nil {
 		return false
 	} else {
 		return i == 0
 	}
+}
+
+// 获得用户信息详情
+func GetProfile(session *ghttp.Session) (u *user.Entity) {
+	session.GetStruct(USER_SESSION_MARK, &u)
+	return
 }

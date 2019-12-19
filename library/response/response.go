@@ -20,5 +20,10 @@ func Json(r *ghttp.Request, err int, msg string, data ...interface{}) {
 		"msg":  msg,
 		"data": responseData,
 	})
+}
+
+// 返回JSON数据并退出当前HTTP执行函数。
+func JsonExit(r *ghttp.Request, err int, msg string, data ...interface{}) {
+	Json(r, err, msg, data...)
 	r.Exit()
 }

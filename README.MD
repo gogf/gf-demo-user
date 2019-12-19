@@ -53,7 +53,7 @@ This repo implements some demos using GoFrame.
 
 # GoFrame Sites
 <div align="center">
-<img src="https://gf.cdn.johng.cn/logo.png" width="200"/>
+<img src="https://goframe.org/logo.png" width="200"/>
 </div>
 
 ### GoFrame Repository

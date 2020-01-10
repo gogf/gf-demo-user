@@ -12,7 +12,7 @@ import (
 
 // Entity is the golang structure for table user.
 type Entity struct {
-    Id         int         `orm:"id,primary"  json:"id"`          // 用户ID             
+    Id         uint        `orm:"id,primary"  json:"id"`          // 用户ID             
     Passport   string      `orm:"passport"    json:"passport"`    // 账号               
     Password   string      `orm:"password"    json:"password"`    // 密码               
     Nickname   string      `orm:"nickname"    json:"nickname"`    // 昵称               

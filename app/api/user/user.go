@@ -4,7 +4,6 @@ import (
 	"github.com/gogf/gf-demos/app/service/user"
 	"github.com/gogf/gf-demos/library/response"
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/gogf/gf/util/gvalid"
 )
 
 // 用户API管理对象
@@ -18,6 +17,8 @@ type SignUpRequest struct {
 // 用户注册接口
 func (c *Controller) SignUp(r *ghttp.Request) {
 	var data *SignUpRequest
+	// 这里没有使用Parse而是仅用GetStruct获取对象，
+	// 数据校验交给后续的service层统一处理
 	if err := r.GetStruct(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -37,11 +38,8 @@ type SignInRequest struct {
 // 用户登录接口
 func (c *Controller) SignIn(r *ghttp.Request) {
 	var data *SignInRequest
-	if err := r.GetStruct(&data); err != nil {
+	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
-	}
-	if e := gvalid.CheckStruct(data, nil); e != nil {
-		response.JsonExit(r, 1, e.String())
 	}
 	if err := user.SignIn(data.Passport, data.Password, r.Session); err != nil {
 		response.JsonExit(r, 1, err.Error())
@@ -75,7 +73,7 @@ type CheckPassportRequest struct {
 // 检测用户账号接口(唯一性校验)
 func (c *Controller) CheckPassport(r *ghttp.Request) {
 	var data *CheckPassportRequest
-	if err := r.GetStruct(&data); err != nil {
+	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
 	if data.Passport != "" && !user.CheckPassport(data.Passport) {
@@ -92,7 +90,7 @@ type CheckNickNameRequest struct {
 // 检测用户昵称接口(唯一性校验)
 func (c *Controller) CheckNickName(r *ghttp.Request) {
 	var data *CheckNickNameRequest
-	if err := r.GetStruct(&data); err != nil {
+	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
 	if data.Nickname != "" && !user.CheckNickName(data.Nickname) {

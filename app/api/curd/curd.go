@@ -1,4 +1,4 @@
-// curd包提供了对当前已配置数据库的快速CURD操作。
+// curd包提供了对当前已配置数据库的快速CURD的API操作。
 //
 // 业务保留字段，可通过query参数提交:
 // x_schema 操作的数据库
@@ -6,7 +6,7 @@
 // x_where  原始SQL条件语句(可直接提交主键数值)
 // x_order  排序语句, 例如: id desc
 // x_group  分组语句, 例如: type
-// x_page   分页语句(记录影响限制语句), 例如: 0, 100
+// x_page   分页语句(记录影响限制语句), 例如: 1,100
 
 package curd
 
@@ -28,7 +28,7 @@ const (
 	PageSizeMax     = 100
 )
 
-// 构造函数
+// 请求构造函数
 func (c *Controller) Init(r *ghttp.Request) {
 	s := getSchema(r)
 	if s == "" {
@@ -45,7 +45,8 @@ func (c *Controller) Init(r *ghttp.Request) {
 
 // 析构函数
 func (c *Controller) Shut(r *ghttp.Request) {
-	// 在这里可以对当前控制器的所有路由函数返回值做拦截处理
+	// 在这里可以对当前控制器的所有路由函数返回值做拦截处理。
+	// 交给你啦..
 }
 
 // 提供对数据表的直接CURD访问，查询单条数据记录。
@@ -55,7 +56,7 @@ func (c *Controller) One(r *ghttp.Request) {
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	one, err := g.DB().Table(table).FindOne(where)
+	one, err := g.DB().Schema(getSchema(r)).Table(table).FindOne(where)
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -77,7 +78,7 @@ func (c *Controller) All(r *ghttp.Request) {
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	one, err := g.DB().Table(table).Page(getPage(r)).Order(order).Group(group).FindAll(where)
+	one, err := g.DB().Schema(getSchema(r)).Table(table).Page(getPage(r)).Order(order).Group(group).FindAll(where)
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -97,7 +98,7 @@ func (c *Controller) Save(r *ghttp.Request) {
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	one, err := g.DB().Table(table).Data(data).WherePri(where).Page(getPage(r)).Filter().Save()
+	one, err := g.DB().Schema(getSchema(r)).Table(table).Data(data).WherePri(where).Page(getPage(r)).Filter().Save()
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -117,7 +118,7 @@ func (c *Controller) Update(r *ghttp.Request) {
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	one, err := g.DB().Table(table).Data(data).WherePri(where).Page(getPage(r)).Filter().Update()
+	one, err := g.DB().Schema(getSchema(r)).Table(table).Data(data).WherePri(where).Page(getPage(r)).Filter().Update()
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -131,7 +132,7 @@ func (c *Controller) Delete(r *ghttp.Request) {
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	one, err := g.DB().Table(table).WherePri(where).Page(getPage(r)).Delete()
+	one, err := g.DB().Schema(getSchema(r)).Table(table).WherePri(where).Page(getPage(r)).Delete()
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -214,10 +215,12 @@ func getGroup(r *ghttp.Request) (string, error) {
 
 // 检查给定的字符串是否安全(可提交到数据库执行)
 func validateSqlStr(s string) error {
+	// 是否包含不允许的字符
 	match, _ := gregex.MatchString(`([^,'"+-\*%\.\/<>=\(\)\w\s])+`, s)
 	if len(match) > 1 {
 		return gerror.Newf(`invalid string "%s" in query condition`, match[1])
 	}
+	// 不能存在注释语句
 	if gstr.Contains(s, "--") {
 		return gerror.Newf(`invalid character '--' in query condition`)
 	}

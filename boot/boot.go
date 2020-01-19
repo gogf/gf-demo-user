@@ -1,6 +1,12 @@
 package boot
 
+import (
+	"github.com/gogf/gf-swagger/swagger"
+	"github.com/gogf/gf/frame/g"
+)
+
 // 用于应用初始化。
 func init() {
-	// 添加代码层级的启动配置
+	s := g.Server()
+	s.Plugin(&swagger.Swagger{})
 }

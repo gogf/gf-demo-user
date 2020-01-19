@@ -28,3 +28,14 @@
         Path   = "/tmp/log/gf-demos/sql"
         Level  = "all"
         Stdout = true
+
+# swagger api页面查看账号密码
+[swagger]
+    user        = "123"
+    pass        = "123"
+    schemes     = ["http"]
+    version     = "1.0"
+    title       = "示例服务API"
+    description = """
+`GoFrame`基础开发框架示例服务API接口文档。
+    """

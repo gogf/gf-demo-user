@@ -2,7 +2,6 @@
 //
 // 业务保留字段，可通过query参数提交:
 // x_schema 操作的数据库
-// x_table  操作的数据表
 // x_where  原始SQL条件语句(可直接提交主键数值)
 // x_order  排序语句, 例如: id desc
 // x_group  分组语句, 例如: type
@@ -49,7 +48,17 @@ func (c *Controller) Shut(r *ghttp.Request) {
 	// 交给你啦..
 }
 
-// 提供对数据表的直接CURD访问，查询单条数据记录。
+// @summary 查询单条数据记录
+// @tags    快速CURD
+// @produce json
+// @param   table    path  string  true "操作的数据表"
+// @param   x_schema query string false "操作的数据库"
+// @param   x_where  query string false "原始SQL条件语句(可直接提交主键数值)"
+// @param   x_order  query string false "排序语句, 例如: `id desc`"
+// @param   x_group  query string false "分组语句, 例如: `type`"
+// @param   x_page   query string false "分页语句(记录影响限制语句), 例如: `1,100`"
+// @router  /curd/{table}/one [GET]
+// @success 200 {object} response.JsonResponse "查询结果"
 func (c *Controller) One(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	where, err := getWhere(r)
@@ -63,7 +72,17 @@ func (c *Controller) One(r *ghttp.Request) {
 	response.JsonExit(r, 0, "", one)
 }
 
-// 提供对数据表的直接CURD访问，查询多条数据记录。
+// @summary 查询多条数据记录
+// @tags    快速CURD
+// @produce json
+// @param   table    path  string  true "操作的数据表"
+// @param   x_schema query string false "操作的数据库"
+// @param   x_where  query string false "原始SQL条件语句(可直接提交主键数值)"
+// @param   x_order  query string false "排序语句, 例如: `id desc`"
+// @param   x_group  query string false "分组语句, 例如: `type`"
+// @param   x_page   query string false "分页语句(记录影响限制语句), 例如: `1,100`"
+// @router  /curd/{table}/all [GET]
+// @success 200 {object} response.JsonResponse "查询结果"
 func (c *Controller) All(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	order, err := getOrder(r)
@@ -85,7 +104,14 @@ func (c *Controller) All(r *ghttp.Request) {
 	response.JsonExit(r, 0, "", one)
 }
 
-// 保存记录
+// @summary 保存数据记录
+// @description 注意保存的数据通过表单提交，由于提交的数据字段不固定，因此这里没有写字段说明，并且无法通过`swagger`测试。
+// @tags    快速CURD
+// @produce json
+// @param   table    path  string true  "操作的数据表"
+// @param   x_schema query string false "操作的数据库"
+// @router  /curd/{table}/save [POST]
+// @success 200 {object} response.JsonResponse "执行结果"
 func (c *Controller) Save(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	data := r.GetMap()
@@ -105,7 +131,16 @@ func (c *Controller) Save(r *ghttp.Request) {
 	response.JsonExit(r, 0, "", one)
 }
 
-// 更新记录
+// @summary 更新数据记录
+// @description 注意修改的数据通过表单提交，由于提交的数据字段不固定，因此这里没有写字段说明，并且无法通过`swagger`测试。
+// @tags    快速CURD
+// @produce json
+// @param   table    path  string true  "操作的数据表"
+// @param   x_schema query string false "操作的数据库"
+// @param   x_where  query string false "原始SQL条件语句(可直接提交主键数值)"
+// @param   x_page   query string false "分页语句(记录影响限制语句), 例如: `1,100`"
+// @router  /curd/{table}/update [POST]
+// @success 200 {object} response.JsonResponse "执行结果"
 func (c *Controller) Update(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	data := r.GetMap()
@@ -125,12 +160,23 @@ func (c *Controller) Update(r *ghttp.Request) {
 	response.JsonExit(r, 0, "", one)
 }
 
-// 删除记录
+// @summary 删除数据记录
+// @tags    快速CURD
+// @produce json
+// @param   table    path  string true  "操作的数据表"
+// @param   x_schema query string false "操作的数据库"
+// @param   x_where  query string true  "原始SQL条件语句(可直接提交主键数值)"
+// @param   x_page   query string false "分页语句(记录影响限制语句), 例如: `1,100`"
+// @router  /curd/{table}/delete [POST]
+// @success 200 {object} response.JsonResponse "执行结果"
 func (c *Controller) Delete(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	where, err := getWhere(r)
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
+	}
+	if where == "" {
+		response.JsonExit(r, 1, "执行删除时Where条件不能为空")
 	}
 	one, err := g.DB().Schema(getSchema(r)).Table(table).WherePri(where).Page(getPage(r)).Delete()
 	if err != nil {

@@ -26,7 +26,7 @@ type SignUpInput struct {
 func SignUp(data *SignUpInput) error {
 	// 输入参数检查
 	if e := gvalid.CheckStruct(data, nil); e != nil {
-		return errors.New(e.String())
+		return errors.New(e.FirstString())
 	}
 	// 昵称为非必需参数，默认使用账号名称
 	if data.Nickname == "" {

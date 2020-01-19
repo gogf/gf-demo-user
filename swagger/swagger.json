@@ -1,0 +1,531 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "{{.Description}}",
+        "title": "{{.Title}}",
+        "contact": {},
+        "license": {},
+        "version": "{{.Version}}"
+    },
+    "host": "{{.Host}}",
+    "basePath": "{{.BasePath}}",
+    "paths": {
+        "/chat/index": {
+            "get": {
+                "description": "聊天室首页，只显示模板内容。如果当前用户未登录，那么引导跳转到名称设置页面。",
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "聊天室"
+                ],
+                "summary": "聊天室首页",
+                "responses": {
+                    "200": {
+                        "description": "执行结果",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/setname": {
+            "get": {
+                "description": "展示设置聊天名称页面，在该页面设置名称，成功后再跳转到聊天室页面。",
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "聊天室"
+                ],
+                "summary": "设置聊天名称页面",
+                "responses": {
+                    "200": {
+                        "description": "执行成功后跳转到聊天室页面",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/websocket": {
+            "post": {
+                "description": "通过WebSocket连接该接口发送任意数据。",
+                "tags": [
+                    "聊天室"
+                ],
+                "summary": "WebSocket接口"
+            }
+        },
+        "/curd/{table}/all": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "快速CURD"
+                ],
+                "summary": "查询多条数据记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "操作的数据表",
+                        "name": "table",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "操作的数据库",
+                        "name": "x_schema",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "原始SQL条件语句(可直接提交主键数值)",
+                        "name": "x_where",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "排序语句, 例如: `id desc`",
+                        "name": "x_order",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "分组语句, 例如: `type`",
+                        "name": "x_group",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "分页语句(记录影响限制语句), 例如: `1,100`",
+                        "name": "x_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "查询结果",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/curd/{table}/delete": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "快速CURD"
+                ],
+                "summary": "删除数据记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "操作的数据表",
+                        "name": "table",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "操作的数据库",
+                        "name": "x_schema",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "原始SQL条件语句(可直接提交主键数值)",
+                        "name": "x_where",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "分页语句(记录影响限制语句), 例如: `1,100`",
+                        "name": "x_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "执行结果",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/curd/{table}/one": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "快速CURD"
+                ],
+                "summary": "查询单条数据记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "操作的数据表",
+                        "name": "table",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "操作的数据库",
+                        "name": "x_schema",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "原始SQL条件语句(可直接提交主键数值)",
+                        "name": "x_where",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "排序语句, 例如: `id desc`",
+                        "name": "x_order",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "分组语句, 例如: `type`",
+                        "name": "x_group",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "分页语句(记录影响限制语句), 例如: `1,100`",
+                        "name": "x_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "查询结果",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/curd/{table}/save": {
+            "post": {
+                "description": "注意保存的数据通过表单提交，由于提交的数据字段不固定，因此这里没有写字段说明，并且无法通过`swagger`测试。",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "快速CURD"
+                ],
+                "summary": "保存数据记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "操作的数据表",
+                        "name": "table",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "操作的数据库",
+                        "name": "x_schema",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "执行结果",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/curd/{table}/update": {
+            "post": {
+                "description": "注意修改的数据通过表单提交，由于提交的数据字段不固定，因此这里没有写字段说明，并且无法通过`swagger`测试。",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "快速CURD"
+                ],
+                "summary": "更新数据记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "操作的数据表",
+                        "name": "table",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "操作的数据库",
+                        "name": "x_schema",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "原始SQL条件语句(可直接提交主键数值)",
+                        "name": "x_where",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "分页语句(记录影响限制语句), 例如: `1,100`",
+                        "name": "x_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "执行结果",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/checkpassport": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户服务"
+                ],
+                "summary": "检测用户昵称接口(唯一性校验)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户昵称",
+                        "name": "nickname",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "执行结果",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/issignedin": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户服务"
+                ],
+                "summary": "判断用户是否已经登录",
+                "responses": {
+                    "200": {
+                        "description": "执行结果:`true/false`",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/profile": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户服务"
+                ],
+                "summary": "获取用户详情信息",
+                "responses": {
+                    "200": {
+                        "description": "用户信息",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/user.Entity"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/signin": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户服务"
+                ],
+                "summary": "用户登录接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户账号",
+                        "name": "passport",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户密码",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "执行结果",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/signout": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户服务"
+                ],
+                "summary": "用户注销/退出接口",
+                "responses": {
+                    "200": {
+                        "description": "执行结果, 1: 未登录",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/signup": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户服务"
+                ],
+                "summary": "用户注册接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户账号名称",
+                        "name": "passport",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户密码",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "确认密码",
+                        "name": "password2",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户昵称",
+                        "name": "nickname",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "执行结果",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "response.JsonResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "错误码((0:成功, 1:失败, \u003e1:错误码))",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "返回数据(业务接口定义具体数据结构)",
+                    "type": "object"
+                },
+                "message": {
+                    "description": "提示信息",
+                    "type": "string"
+                }
+            }
+        },
+        "user.Entity": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "description": "创建时间/注册时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "用户ID",
+                    "type": "integer"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "passport": {
+                    "description": "账号",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

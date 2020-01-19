@@ -47,7 +47,12 @@ var (
 	cache = gcache.New()
 )
 
-// Index 聊天室首页，只显示模板内容.
+// @summary 聊天室首页
+// @description 聊天室首页，只显示模板内容。如果当前用户未登录，那么引导跳转到名称设置页面。
+// @tags    聊天室
+// @produce html
+// @router  /chat/index [GET]
+// @success 200 {string} string "执行结果"
 func (c *Controller) Index() {
 	if c.Session.Contains("chat_name") {
 		c.View.Assign("tplMain", "chat/include/chat.html")
@@ -57,7 +62,12 @@ func (c *Controller) Index() {
 	c.View.Display("chat/index.html")
 }
 
-// SetName 设置响当当的名字
+// @summary 设置聊天名称页面
+// @description 展示设置聊天名称页面，在该页面设置名称，成功后再跳转到聊天室页面。
+// @tags    聊天室
+// @produce html
+// @router  /chat/setname [GET]
+// @success 200 {string} string "执行成功后跳转到聊天室页面"
 func (c *Controller) SetName() {
 	name := c.Request.GetString("name")
 	name = ghtml.Entities(name)
@@ -76,7 +86,10 @@ func (c *Controller) SetName() {
 	}
 }
 
-// WebSocket 接口
+// @summary WebSocket接口
+// @description 通过WebSocket连接该接口发送任意数据。
+// @tags    聊天室
+// @router  /chat/websocket [POST]
 func (c *Controller) WebSocket() {
 	msg := &Msg{}
 

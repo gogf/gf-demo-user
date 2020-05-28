@@ -23,8 +23,9 @@ import (
 type Controller struct{}
 
 const (
-	PageSizeDefault = 10
-	PageSizeMax     = 100
+	PageSizeDefault = 10  // 查询数据时分页默认条数
+	PageSizeMax     = 100 // 查询数据时分页最大条数
+	AffectSizeMax   = 100 // 更新/删除操作时最大的受影响行数
 )
 
 // 请求构造函数
@@ -124,7 +125,7 @@ func (c *Controller) Save(r *ghttp.Request) {
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	one, err := g.DB().Schema(getSchema(r)).Table(table).Data(data).WherePri(where).Page(getPage(r)).Filter().Save()
+	one, err := g.DB().Schema(getSchema(r)).Table(table).Data(data).WherePri(where).Limit(AffectSizeMax).Filter().Save()
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -153,7 +154,7 @@ func (c *Controller) Update(r *ghttp.Request) {
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	one, err := g.DB().Schema(getSchema(r)).Table(table).Data(data).WherePri(where).Page(getPage(r)).Filter().Update()
+	one, err := g.DB().Schema(getSchema(r)).Table(table).Data(data).WherePri(where).Limit(AffectSizeMax).Filter().Update()
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -178,7 +179,7 @@ func (c *Controller) Delete(r *ghttp.Request) {
 	if where == "" {
 		response.JsonExit(r, 1, "执行删除时Where条件不能为空")
 	}
-	one, err := g.DB().Schema(getSchema(r)).Table(table).WherePri(where).Page(getPage(r)).Delete()
+	one, err := g.DB().Schema(getSchema(r)).Table(table).WherePri(where).Limit(AffectSizeMax).Delete()
 	if err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -211,7 +212,7 @@ func getWhere(r *ghttp.Request) (interface{}, error) {
 	return m, nil
 }
 
-// 获得分页条件，记录影响执行限制条件
+// 获得分页条件
 func getPage(r *ghttp.Request) (page, size int) {
 	s := r.GetQueryString("x_page")
 	if s == "" {

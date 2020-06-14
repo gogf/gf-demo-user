@@ -1,14 +1,9 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "{{.Description}}",
-        "title": "{{.Title}}",
         "contact": {},
-        "license": {},
-        "version": "{{.Version}}"
+        "license": {}
     },
-    "host": "{{.Host}}",
-    "basePath": "{{.BasePath}}",
     "paths": {
         "/chat/index": {
             "get": {
@@ -111,7 +106,6 @@
                     "200": {
                         "description": "查询结果",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -159,7 +153,6 @@
                     "200": {
                         "description": "执行结果",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -218,7 +211,6 @@
                     "200": {
                         "description": "查询结果",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -254,7 +246,6 @@
                     "200": {
                         "description": "执行结果",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -302,7 +293,6 @@
                     "200": {
                         "description": "执行结果",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -331,7 +321,6 @@
                     "200": {
                         "description": "执行结果",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -351,7 +340,6 @@
                     "200": {
                         "description": "执行结果:`true/false`",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -371,7 +359,6 @@
                     "200": {
                         "description": "用户信息",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/user.Entity"
                         }
                     }
@@ -407,7 +394,6 @@
                     "200": {
                         "description": "执行结果",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -427,7 +413,6 @@
                     "200": {
                         "description": "执行结果, 1: 未登录",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
@@ -476,7 +461,6 @@
                     "200": {
                         "description": "执行结果",
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/response.JsonResponse"
                         }
                     }

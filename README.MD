@@ -9,9 +9,17 @@ This repo implements some demos using GoFrame.
 
 ### 1. You should have a go development environment before everything takes off.
 ### 2. Use `git clone` cloing the repo to your local folder. 
-`git clone https://github.com/gogf/gf-demos`
+```
+git clone https://github.com/gogf/gf-demos
+```
 
-### 3. Run command `go run main.go`, and you'll see something as follows if success:
+### 3. Create configuration file from `config.example.toml`. 
+```
+cp config/config.example.toml config/config.toml
+```
+Update `config.toml` according to your local configurations if necessary.
+
+### 4. Run command `go run main.go`, and you'll see something as follows if success:
 ```
   SERVER  | DOMAIN  | ADDRESS | METHOD |        ROUTE        |                              HANDLER                              |           MIDDLEWARE             
 |---------|---------|---------|--------|---------------------|-------------------------------------------------------------------|---------------------------------|

@@ -7,7 +7,7 @@ This repo implements some demos using GoFrame.
 
 ## Installation
 
-### 1. You should have a go development environment before everything takes off.
+### 1. You need a go development environment setup before everything starts taking off.
 ### 2. Use `git clone` cloing the repo to your local folder. 
 ```
 git clone https://github.com/gogf/gf-demos

@@ -20,7 +20,7 @@ import (
 	"github.com/gogf/gf/util/gconv"
 )
 
-type Controller struct{}
+type C struct{}
 
 const (
 	PageSizeDefault = 10  // 查询数据时分页默认条数
@@ -29,7 +29,7 @@ const (
 )
 
 // 请求构造函数
-func (c *Controller) Init(r *ghttp.Request) {
+func (c *C) Init(r *ghttp.Request) {
 	s := getSchema(r)
 	if s == "" {
 		return
@@ -44,7 +44,7 @@ func (c *Controller) Init(r *ghttp.Request) {
 }
 
 // 析构函数
-func (c *Controller) Shut(r *ghttp.Request) {
+func (c *C) Shut(r *ghttp.Request) {
 	// 在这里可以对当前控制器的所有路由函数返回值做拦截处理。
 	// 交给你啦..
 }
@@ -60,7 +60,7 @@ func (c *Controller) Shut(r *ghttp.Request) {
 // @param   x_page   query string false "分页语句(记录影响限制语句), 例如: `1,100`"
 // @router  /curd/{table}/one [GET]
 // @success 200 {object} response.JsonResponse "查询结果"
-func (c *Controller) One(r *ghttp.Request) {
+func (c *C) One(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	where, err := getWhere(r)
 	if err != nil {
@@ -84,7 +84,7 @@ func (c *Controller) One(r *ghttp.Request) {
 // @param   x_page   query string false "分页语句(记录影响限制语句), 例如: `1,100`"
 // @router  /curd/{table}/all [GET]
 // @success 200 {object} response.JsonResponse "查询结果"
-func (c *Controller) All(r *ghttp.Request) {
+func (c *C) All(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	order, err := getOrder(r)
 	if err != nil {
@@ -113,7 +113,7 @@ func (c *Controller) All(r *ghttp.Request) {
 // @param   x_schema query string false "操作的数据库"
 // @router  /curd/{table}/save [POST]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (c *Controller) Save(r *ghttp.Request) {
+func (c *C) Save(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	data := r.GetMap()
 	if j, _ := r.GetJson(); j != nil {
@@ -142,7 +142,7 @@ func (c *Controller) Save(r *ghttp.Request) {
 // @param   x_page   query string false "分页语句(记录影响限制语句), 例如: `1,100`"
 // @router  /curd/{table}/update [POST]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (c *Controller) Update(r *ghttp.Request) {
+func (c *C) Update(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	data := r.GetMap()
 	if j, _ := r.GetJson(); j != nil {
@@ -170,7 +170,7 @@ func (c *Controller) Update(r *ghttp.Request) {
 // @param   x_page   query string false "分页语句(记录影响限制语句), 例如: `1,100`"
 // @router  /curd/{table}/delete [POST]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (c *Controller) Delete(r *ghttp.Request) {
+func (c *C) Delete(r *ghttp.Request) {
 	table := r.GetRouterString("table")
 	where, err := getWhere(r)
 	if err != nil {

@@ -14,4 +14,3 @@ func Auth(r *ghttp.Request) {
 		r.Response.WriteStatus(http.StatusForbidden)
 	}
 }
-

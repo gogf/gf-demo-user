@@ -17,9 +17,9 @@ import (
 	"time"
 )
 
-// Controller 控制器结构体。
+// 控制器结构体。
 // 该结构体用于通过控制器方式注册，未来不再推荐使用控制器路由注册方式。
-type Controller struct {
+type C struct {
 	gmvc.Controller
 	ws *ghttp.WebSocket
 }
@@ -39,12 +39,9 @@ const (
 )
 
 var (
-	// 使用默认的并发安全Map
-	users = gmap.New(true)
-	// 使用并发安全的Set，用以用户昵称唯一性校验
-	names = gset.NewStrSet(true)
-	// 使用特定的缓存对象，不使用全局缓存对象
-	cache = gcache.New()
+	users = gmap.New(true)       // 使用默认的并发安全Map
+	names = gset.NewStrSet(true) // 使用并发安全的Set，用以用户昵称唯一性校验
+	cache = gcache.New()         // 使用特定的缓存对象，不使用全局缓存对象
 )
 
 // @summary 聊天室首页
@@ -53,7 +50,7 @@ var (
 // @produce html
 // @router  /chat/index [GET]
 // @success 200 {string} string "执行结果"
-func (c *Controller) Index() {
+func (c *C) Index() {
 	if c.Session.Contains("chat_name") {
 		c.View.Assign("tplMain", "chat/include/chat.html")
 	} else {
@@ -68,7 +65,7 @@ func (c *Controller) Index() {
 // @produce html
 // @router  /chat/setname [GET]
 // @success 200 {string} string "执行成功后跳转到聊天室页面"
-func (c *Controller) SetName() {
+func (c *C) SetName() {
 	name := c.Request.GetString("name")
 	name = ghtml.Entities(name)
 	c.Session.Set("chat_name_temp", name)
@@ -90,7 +87,7 @@ func (c *Controller) SetName() {
 // @description 通过WebSocket连接该接口发送任意数据。
 // @tags    聊天室
 // @router  /chat/websocket [POST]
-func (c *Controller) WebSocket() {
+func (c *C) WebSocket() {
 	msg := &Msg{}
 
 	// 初始化WebSocket请求
@@ -146,7 +143,8 @@ func (c *Controller) WebSocket() {
 		case "send":
 			// 发送间隔检查
 			intervalKey := fmt.Sprintf("%p", c.ws)
-			if !cache.SetIfNotExist(intervalKey, struct{}{}, SendInterval) {
+			ok, _ := cache.SetIfNotExist(intervalKey, struct{}{}, SendInterval)
+			if !ok {
 				c.write(Msg{"error", "您的消息发送得过于频繁，请休息下再重试", ""})
 				continue
 			}
@@ -165,7 +163,7 @@ func (c *Controller) WebSocket() {
 
 // 向客户端写入消息。
 // 内部方法不会自动注册到路由中。
-func (c *Controller) write(msg Msg) error {
+func (c *C) write(msg Msg) error {
 	b, err := gjson.Encode(msg)
 	if err != nil {
 		return err
@@ -175,7 +173,7 @@ func (c *Controller) write(msg Msg) error {
 
 // 向所有客户端群发消息。
 // 内部方法不会自动注册到路由中。
-func (c *Controller) writeGroup(msg Msg) error {
+func (c *C) writeGroup(msg Msg) error {
 	b, err := gjson.Encode(msg)
 	if err != nil {
 		return err
@@ -191,7 +189,7 @@ func (c *Controller) writeGroup(msg Msg) error {
 
 // 向客户端返回用户列表。
 // 内部方法不会自动注册到路由中。
-func (c *Controller) writeUsers() error {
+func (c *C) writeUsers() error {
 	array := garray.NewSortedStrArray()
 	names.Iterator(func(v string) bool {
 		array.Add(v)

@@ -1,4 +1,4 @@
-# HTTP Server配置
+# HTTP Server.
 [server]
 	Address        = ":8199"
 	ServerRoot     = "public"
@@ -7,19 +7,19 @@
 	NameToUriType  = 2
 	RouteOverWrite = true
 
-# 全局日志配置
+# Logger configurations.
 [logger]
     Path   = "/tmp/log/gf-demos"
     Level  = "all"
     Stdout = true
 
-# 模板引擎配置
+# Template view configurations.
 [viewer]
     Path        = "template"
     DefaultFile = "index.html"
     Delimiters  =  ["${", "}"]
 
-# 数据库连接
+# Database configurations.
 [database]
     link  = "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
     debug = true
@@ -29,13 +29,7 @@
         Level  = "all"
         Stdout = true
 
-# swagger api页面查看账号密码
+# HTTP basic authentication passport/password for swagger api page.
 [swagger]
-    user        = "123"
-    pass        = "123"
-    schemes     = ["http"]
-    version     = "1.0"
-    title       = "示例服务API"
-    description = """
-`GoFrame`基础开发框架示例服务API接口文档。
-    """
+    user = "123"
+    pass = "123"

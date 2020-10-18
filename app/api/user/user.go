@@ -4,14 +4,18 @@ import (
 	"github.com/gogf/gf-demos/app/service/user"
 	"github.com/gogf/gf-demos/library/response"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/util/gconv"
 )
 
 // 用户API管理对象
-type Controller struct{}
+type C struct{}
 
 // 注册请求参数，用于前后端交互参数格式约定
 type SignUpRequest struct {
-	user.SignUpInput
+	Passport  string `v:"required|length:6,16#账号不能为空|账号长度应当在:min到:max之间"`
+	Password  string `v:"required|length:6,16#请输入确认密码|密码长度应当在:min到:max之间"`
+	Password2 string `v:"required|length:6,16|same:Password#密码不能为空|密码长度应当在:min到:max之间|两次密码输入不相等"`
+	Nickname  string
 }
 
 // @summary 用户注册接口
@@ -23,14 +27,18 @@ type SignUpRequest struct {
 // @param   nickname  formData string false "用户昵称"
 // @router  /user/signup [POST]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (c *Controller) SignUp(r *ghttp.Request) {
-	var data *SignUpRequest
-	// 这里没有使用Parse而是仅用GetStruct获取对象，
-	// 数据校验交给后续的service层统一处理
-	if err := r.GetStruct(&data); err != nil {
+func (c *C) SignUp(r *ghttp.Request) {
+	var (
+		data        *SignUpRequest
+		signUpParam *user.SignUpParam
+	)
+	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	if err := user.SignUp(&data.SignUpInput); err != nil {
+	if err := gconv.Struct(data, &signUpParam); err != nil {
+		response.JsonExit(r, 1, err.Error())
+	}
+	if err := user.SignUp(signUpParam); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	} else {
 		response.JsonExit(r, 0, "ok")
@@ -50,8 +58,10 @@ type SignInRequest struct {
 // @param   password formData string true "用户密码"
 // @router  /user/signin [POST]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (c *Controller) SignIn(r *ghttp.Request) {
-	var data *SignInRequest
+func (c *C) SignIn(r *ghttp.Request) {
+	var (
+		data *SignInRequest
+	)
 	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -65,18 +75,18 @@ func (c *Controller) SignIn(r *ghttp.Request) {
 // @summary 判断用户是否已经登录
 // @tags    用户服务
 // @produce json
-// @router  /user/issignedin [GET]
+// @router  /user/is-signed-in [GET]
 // @success 200 {object} response.JsonResponse "执行结果:`true/false`"
-func (c *Controller) IsSignedIn(r *ghttp.Request) {
+func (c *C) IsSignedIn(r *ghttp.Request) {
 	response.JsonExit(r, 0, "", user.IsSignedIn(r.Session))
 }
 
 // @summary 用户注销/退出接口
 // @tags    用户服务
 // @produce json
-// @router  /user/signout [GET]
+// @router  /user/sign-out [GET]
 // @success 200 {object} response.JsonResponse "执行结果, 1: 未登录"
-func (c *Controller) SignOut(r *ghttp.Request) {
+func (c *C) SignOut(r *ghttp.Request) {
 	if err := user.SignOut(r.Session); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -85,17 +95,19 @@ func (c *Controller) SignOut(r *ghttp.Request) {
 
 // 账号唯一性检测请求参数，用于前后端交互参数格式约定
 type CheckPassportRequest struct {
-	Passport string
+	Passport string `v:"required#账号不能为空"`
 }
 
 // @summary 检测用户账号接口(唯一性校验)
 // @tags    用户服务
 // @produce json
 // @param   passport query string true "用户账号"
-// @router  /user/checkpassport [GET]
+// @router  /user/check-passport [GET]
 // @success 200 {object} response.JsonResponse "执行结果:`true/false`"
-func (c *Controller) CheckPassport(r *ghttp.Request) {
-	var data *CheckPassportRequest
+func (c *C) CheckPassport(r *ghttp.Request) {
+	var (
+		data *CheckPassportRequest
+	)
 	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -107,7 +119,7 @@ func (c *Controller) CheckPassport(r *ghttp.Request) {
 
 // 账号唯一性检测请求参数，用于前后端交互参数格式约定
 type CheckNickNameRequest struct {
-	Nickname string
+	Nickname string `v:"required#昵称不能为空"`
 }
 
 // @summary 检测用户昵称接口(唯一性校验)
@@ -116,8 +128,10 @@ type CheckNickNameRequest struct {
 // @param   nickname query string true "用户昵称"
 // @router  /user/checkpassport [GET]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (c *Controller) CheckNickName(r *ghttp.Request) {
-	var data *CheckNickNameRequest
+func (c *C) CheckNickName(r *ghttp.Request) {
+	var (
+		data *CheckNickNameRequest
+	)
 	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -132,6 +146,6 @@ func (c *Controller) CheckNickName(r *ghttp.Request) {
 // @produce json
 // @router  /user/profile [GET]
 // @success 200 {object} user.Entity "用户信息"
-func (c *Controller) Profile(r *ghttp.Request) {
+func (c *C) Profile(r *ghttp.Request) {
 	response.JsonExit(r, 0, "", user.GetProfile(r.Session))
 }

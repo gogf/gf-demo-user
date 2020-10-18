@@ -20,12 +20,12 @@ func init() {
 
 	// 分组路由注册方式
 	s.Group("/", func(group *ghttp.RouterGroup) {
-		ctlChat := new(chat.Controller)
-		ctlUser := new(user.Controller)
+		ctlChat := new(chat.C)
+		ctlUser := new(user.C)
 		group.Middleware(middleware.CORS)
 		group.ALL("/chat", ctlChat)
 		group.ALL("/user", ctlUser)
-		group.ALL("/curd/:table", new(curd.Controller))
+		group.ALL("/curd/:table", new(curd.C))
 		group.Group("/", func(group *ghttp.RouterGroup) {
 			group.Middleware(middleware.Auth)
 			group.ALL("/user/profile", ctlUser, "Profile")

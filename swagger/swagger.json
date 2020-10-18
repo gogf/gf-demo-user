@@ -1,8 +1,14 @@
 {
+    "schemes": [
+        "http"
+    ],
     "swagger": "2.0",
     "info": {
+        "description": "`GoFrame`基础开发框架示例服务API接口文档。",
+        "title": "`gf-demo`示例服务API",
         "contact": {},
-        "license": {}
+        "license": {},
+        "version": "1.0"
     },
     "paths": {
         "/chat/index": {
@@ -299,7 +305,7 @@
                 }
             }
         },
-        "/user/checkpassport": {
+        "/user/checknickname": {
             "get": {
                 "produces": [
                     "application/json"
@@ -320,6 +326,34 @@
                 "responses": {
                     "200": {
                         "description": "执行结果",
+                        "schema": {
+                            "$ref": "#/definitions/response.JsonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/checkpassport": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户服务"
+                ],
+                "summary": "检测用户账号接口(唯一性校验)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户账号",
+                        "name": "passport",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "执行结果:`true/false`",
                         "schema": {
                             "$ref": "#/definitions/response.JsonResponse"
                         }
@@ -489,8 +523,8 @@
         "user.Entity": {
             "type": "object",
             "properties": {
-                "create_time": {
-                    "description": "创建时间/注册时间",
+                "create_at": {
+                    "description": "创建时间",
                     "type": "string"
                 },
                 "id": {
@@ -498,15 +532,19 @@
                     "type": "integer"
                 },
                 "nickname": {
-                    "description": "昵称",
+                    "description": "用户昵称",
                     "type": "string"
                 },
                 "passport": {
-                    "description": "账号",
+                    "description": "用户账号",
                     "type": "string"
                 },
                 "password": {
-                    "description": "密码",
+                    "description": "用户密码",
+                    "type": "string"
+                },
+                "update_at": {
+                    "description": "更新时间",
                     "type": "string"
                 }
             }

@@ -108,7 +108,7 @@ func (c *C) WebSocket() {
 	users.Set(c.ws, name)
 
 	// 初始化后向所有客户端发送上线消息
-	c.writeUsers()
+	c.writeUserListToClient()
 
 	for {
 		// 阻塞读取WS数据
@@ -119,7 +119,7 @@ func (c *C) WebSocket() {
 			names.Remove(name)
 			users.Remove(c.ws)
 			// 通知所有客户端当前用户已下线
-			c.writeUsers()
+			c.writeUserListToClient()
 			break
 		}
 		// JSON参数解析
@@ -143,8 +143,7 @@ func (c *C) WebSocket() {
 		case "send":
 			// 发送间隔检查
 			intervalKey := fmt.Sprintf("%p", c.ws)
-			ok, _ := cache.SetIfNotExist(intervalKey, struct{}{}, SendInterval)
-			if !ok {
+			if ok, _ := cache.SetIfNotExist(intervalKey, struct{}{}, SendInterval); !ok {
 				c.write(Msg{"error", "您的消息发送得过于频繁，请休息下再重试", ""})
 				continue
 			}
@@ -189,7 +188,7 @@ func (c *C) writeGroup(msg Msg) error {
 
 // 向客户端返回用户列表。
 // 内部方法不会自动注册到路由中。
-func (c *C) writeUsers() error {
+func (c *C) writeUserListToClient() error {
 	array := garray.NewSortedStrArray()
 	names.Iterator(func(v string) bool {
 		array.Add(v)

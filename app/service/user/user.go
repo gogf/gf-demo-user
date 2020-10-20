@@ -12,14 +12,6 @@ const (
 	SessionMark = "user_info"
 )
 
-// 注册输入参数
-type SignUpParam struct {
-	Passport  string `v:"required|length:6,16#账号不能为空|账号长度应当在:min到:max之间"`
-	Password  string `v:"required|length:6,16#请输入确认密码|密码长度应当在:min到:max之间"`
-	Password2 string `v:"required|length:6,16|same:Password#密码不能为空|密码长度应当在:min到:max之间|两次密码输入不相等"`
-	Nickname  string
-}
-
 // 用户注册
 func SignUp(param *SignUpParam) error {
 	// 昵称为非必需参数，默认使用账号名称

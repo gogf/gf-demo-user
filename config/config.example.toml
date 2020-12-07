@@ -29,7 +29,14 @@
         Level  = "all"
         Stdout = true
 
+# GF-CLI工具配置
+[gfcli]
+    # 自定义DAO生成配置(默认是读取database配置)
+    [gfcli.gen.dao]
+        link  = "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
+        table = "user"
+
 # HTTP basic authentication passport/password for swagger api page.
-[swagger]
-    user = "123"
-    pass = "123"
+#[swagger]
+#    user = "123"
+#    pass = "123"

@@ -1,7 +1,7 @@
 module github.com/gogf/gf-demos
 
 require (
-	github.com/gogf/gf v1.14.6-0.20201207123952-60ec59fa4a5c
+	github.com/gogf/gf v1.14.6-0.20201214132204-c685876e6f67
 	github.com/gogf/swagger v1.2.0
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/grokify/html-strip-tags-go v0.0.0-20200322061010-ea0c1cf2f119 // indirect

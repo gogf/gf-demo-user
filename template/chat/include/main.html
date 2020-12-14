@@ -27,7 +27,7 @@
         <div>
             <div class="input-form">
                 <div>与大家开始聊天之前，给自己取一个响当当的名字吧！</div>
-                <input class="form-control" id="txtName" name="name" minlength="1" maxlength="7" value="${.Session.chat_name_temp}" placeholder="响当当的名字">
+                <input class="form-control" id="txtName" name="name" minlength="1" maxlength="7" value="{{.Session.chat_name_temp}}" placeholder="响当当的名字">
             </div>
             <div style="text-align: center"><button class="btn btn-primary" type="submit" id="btnSend">提 交</button></div>
         </div>
@@ -36,7 +36,7 @@
 
 <script type="application/javascript">
     $(function () {
-        var err = "${.Session.chat_name_error}";
+        var err = "{{.Session.chat_name_error}}";
         if (err != "") {
             layer.msg(err);
         }

@@ -1,22 +1,22 @@
 # HTTP Server.
 [server]
-	Address        = ":8199"
-	ServerRoot     = "public"
-	ServerAgent    = "gf-demos"
-	LogPath        = "/tmp/log/gf-demos/server"
-	NameToUriType  = 2
-	RouteOverWrite = true
+	address        = ":8199"
+	serverRoot     = "public"
+	serverAgent    = "gf-demos"
+	logPath        = "/tmp/log/gf-demos/server"
+	nameToUriType  = 2
+	routeOverWrite = true
 
 # Logger configurations.
 [logger]
-    Path   = "/tmp/log/gf-demos"
-    Level  = "all"
-    Stdout = true
+    path   = "/tmp/log/gf-demos"
+    level  = "all"
+    stdout = true
 
 # Template view configurations.
 [viewer]
-    Path        = "template"
-    DefaultFile = "index.html"
+    path        = "template"
+    defaultFile = "index.html"
 
 # Database configurations.
 [database]
@@ -35,7 +35,3 @@
         link   = "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
         tables = "user"
 
-# HTTP basic authentication passport/password for swagger api page.
-#[swagger]
-#    user = "123"
-#    pass = "123"

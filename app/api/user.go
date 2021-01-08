@@ -9,9 +9,9 @@ import (
 )
 
 // 用户API管理对象
-var User = new(apiUser)
+var User = new(userApi)
 
-type apiUser struct{}
+type userApi struct{}
 
 // @summary 用户注册接口
 // @tags    用户服务
@@ -19,7 +19,7 @@ type apiUser struct{}
 // @param   entity  body model.UserApiSignUpReq true "注册请求"
 // @router  /user/signup [POST]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (a *apiUser) SignUp(r *ghttp.Request) {
+func (a *userApi) SignUp(r *ghttp.Request) {
 	var (
 		apiReq     *model.UserApiSignUpReq
 		serviceReq *model.UserServiceSignUpReq
@@ -44,7 +44,7 @@ func (a *apiUser) SignUp(r *ghttp.Request) {
 // @param   password formData string true "用户密码"
 // @router  /user/signin [POST]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (a *apiUser) SignIn(r *ghttp.Request) {
+func (a *userApi) SignIn(r *ghttp.Request) {
 	var (
 		data *model.UserApiSignInReq
 	)
@@ -63,7 +63,7 @@ func (a *apiUser) SignIn(r *ghttp.Request) {
 // @produce json
 // @router  /user/issignedin [GET]
 // @success 200 {object} response.JsonResponse "执行结果:`true/false`"
-func (a *apiUser) IsSignedIn(r *ghttp.Request) {
+func (a *userApi) IsSignedIn(r *ghttp.Request) {
 	response.JsonExit(r, 0, "", service.User.IsSignedIn(r.Context()))
 }
 
@@ -72,7 +72,7 @@ func (a *apiUser) IsSignedIn(r *ghttp.Request) {
 // @produce json
 // @router  /user/signout [GET]
 // @success 200 {object} response.JsonResponse "执行结果, 1: 未登录"
-func (a *apiUser) SignOut(r *ghttp.Request) {
+func (a *userApi) SignOut(r *ghttp.Request) {
 	if err := service.User.SignOut(r.Context()); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
@@ -85,7 +85,7 @@ func (a *apiUser) SignOut(r *ghttp.Request) {
 // @param   passport query string true "用户账号"
 // @router  /user/checkpassport [GET]
 // @success 200 {object} response.JsonResponse "执行结果:`true/false`"
-func (a *apiUser) CheckPassport(r *ghttp.Request) {
+func (a *userApi) CheckPassport(r *ghttp.Request) {
 	var (
 		data *model.UserApiCheckPassportReq
 	)
@@ -104,7 +104,7 @@ func (a *apiUser) CheckPassport(r *ghttp.Request) {
 // @param   nickname query string true "用户昵称"
 // @router  /user/checknickname [GET]
 // @success 200 {object} response.JsonResponse "执行结果"
-func (a *apiUser) CheckNickName(r *ghttp.Request) {
+func (a *userApi) CheckNickName(r *ghttp.Request) {
 	var (
 		data *model.UserApiCheckNickNameReq
 	)
@@ -122,6 +122,6 @@ func (a *apiUser) CheckNickName(r *ghttp.Request) {
 // @produce json
 // @router  /user/profile [GET]
 // @success 200 {object} model.User "用户信息"
-func (a *apiUser) Profile(r *ghttp.Request) {
+func (a *userApi) Profile(r *ghttp.Request) {
 	response.JsonExit(r, 0, "", service.User.GetProfile(r.Context()))
 }

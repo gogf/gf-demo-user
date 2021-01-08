@@ -7,12 +7,12 @@ import (
 )
 
 // 中间件管理服务
-var Middleware = new(serviceMiddleware)
+var Middleware = new(middlewareService)
 
-type serviceMiddleware struct{}
+type middlewareService struct{}
 
 // 自定义上下文对象
-func (s *serviceMiddleware) Ctx(r *ghttp.Request) {
+func (s *middlewareService) Ctx(r *ghttp.Request) {
 	// 初始化，务必最开始执行
 	customCtx := &model.Context{
 		Session: r.Session,
@@ -30,7 +30,7 @@ func (s *serviceMiddleware) Ctx(r *ghttp.Request) {
 }
 
 // 鉴权中间件，只有登录成功之后才能通过
-func (s *serviceMiddleware) Auth(r *ghttp.Request) {
+func (s *middlewareService) Auth(r *ghttp.Request) {
 	if User.IsSignedIn(r.Context()) {
 		r.Middleware.Next()
 	} else {
@@ -39,7 +39,7 @@ func (s *serviceMiddleware) Auth(r *ghttp.Request) {
 }
 
 // 允许接口跨域请求
-func (s *serviceMiddleware) CORS(r *ghttp.Request) {
+func (s *middlewareService) CORS(r *ghttp.Request) {
 	r.Response.CORSDefault()
 	r.Middleware.Next()
 }

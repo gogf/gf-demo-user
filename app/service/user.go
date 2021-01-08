@@ -9,12 +9,12 @@ import (
 )
 
 // 中间件管理服务
-var User = new(serviceUser)
+var User = new(userService)
 
-type serviceUser struct{}
+type userService struct{}
 
 // 用户注册
-func (s *serviceUser) SignUp(r *model.UserServiceSignUpReq) error {
+func (s *userService) SignUp(r *model.UserServiceSignUpReq) error {
 	// 昵称为非必需参数，默认使用账号名称
 	if r.Nickname == "" {
 		r.Nickname = r.Passport
@@ -34,7 +34,7 @@ func (s *serviceUser) SignUp(r *model.UserServiceSignUpReq) error {
 }
 
 // 判断用户是否已经登录
-func (s *serviceUser) IsSignedIn(ctx context.Context) bool {
+func (s *userService) IsSignedIn(ctx context.Context) bool {
 	if v := Context.Get(ctx); v != nil && v.User != nil {
 		return true
 	}
@@ -42,7 +42,7 @@ func (s *serviceUser) IsSignedIn(ctx context.Context) bool {
 }
 
 // 用户登录，成功返回用户信息，否则返回nil; passport应当会md5值字符串
-func (s *serviceUser) SignIn(ctx context.Context, passport, password string) error {
+func (s *userService) SignIn(ctx context.Context, passport, password string) error {
 	user, err := dao.User.FindOne("passport=? and password=?", passport, password)
 	if err != nil {
 		return err
@@ -62,12 +62,12 @@ func (s *serviceUser) SignIn(ctx context.Context, passport, password string) err
 }
 
 // 用户注销
-func (s *serviceUser) SignOut(ctx context.Context) error {
+func (s *userService) SignOut(ctx context.Context) error {
 	return Session.RemoveUser(ctx)
 }
 
 // 检查账号是否符合规范(目前仅检查唯一性),存在返回false,否则true
-func (s *serviceUser) CheckPassport(passport string) bool {
+func (s *userService) CheckPassport(passport string) bool {
 	if i, err := dao.User.FindCount("passport", passport); err != nil {
 		return false
 	} else {
@@ -76,7 +76,7 @@ func (s *serviceUser) CheckPassport(passport string) bool {
 }
 
 // 检查昵称是否符合规范(目前仅检查唯一性),存在返回false,否则true
-func (s *serviceUser) CheckNickName(nickname string) bool {
+func (s *userService) CheckNickName(nickname string) bool {
 	if i, err := dao.User.FindCount("nickname", nickname); err != nil {
 		return false
 	} else {
@@ -85,6 +85,6 @@ func (s *serviceUser) CheckNickName(nickname string) bool {
 }
 
 // 获得用户信息详情
-func (s *serviceUser) GetProfile(ctx context.Context) *model.User {
+func (s *userService) GetProfile(ctx context.Context) *model.User {
 	return Session.GetUser(ctx)
 }

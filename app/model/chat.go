@@ -8,6 +8,6 @@ type ChatMsg struct {
 }
 
 // 设置昵称请求
-type ApiChatSetNameReq struct {
+type ChatApiSetNameReq struct {
 	Name string `json:"type" v:"required|max-length:21#取一个响当当的名字吧|用户昵称最长为21字节"`
 }

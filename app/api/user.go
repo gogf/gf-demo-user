@@ -16,13 +16,13 @@ type apiUser struct{}
 // @summary 用户注册接口
 // @tags    用户服务
 // @produce json
-// @param   entity  body model.ApiUserSignUpReq true "注册请求"
+// @param   entity  body model.UserApiSignUpReq true "注册请求"
 // @router  /user/signup [POST]
 // @success 200 {object} response.JsonResponse "执行结果"
 func (a *apiUser) SignUp(r *ghttp.Request) {
 	var (
-		apiReq     *model.ApiUserSignUpReq
-		serviceReq *model.ServiceUserSignUpReq
+		apiReq     *model.UserApiSignUpReq
+		serviceReq *model.UserServiceSignUpReq
 	)
 	if err := r.ParseForm(&apiReq); err != nil {
 		response.JsonExit(r, 1, err.Error())
@@ -46,7 +46,7 @@ func (a *apiUser) SignUp(r *ghttp.Request) {
 // @success 200 {object} response.JsonResponse "执行结果"
 func (a *apiUser) SignIn(r *ghttp.Request) {
 	var (
-		data *model.ApiUserSignInReq
+		data *model.UserApiSignInReq
 	)
 	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
@@ -87,7 +87,7 @@ func (a *apiUser) SignOut(r *ghttp.Request) {
 // @success 200 {object} response.JsonResponse "执行结果:`true/false`"
 func (a *apiUser) CheckPassport(r *ghttp.Request) {
 	var (
-		data *model.ApiUserCheckPassportReq
+		data *model.UserApiCheckPassportReq
 	)
 	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
@@ -106,7 +106,7 @@ func (a *apiUser) CheckPassport(r *ghttp.Request) {
 // @success 200 {object} response.JsonResponse "执行结果"
 func (a *apiUser) CheckNickName(r *ghttp.Request) {
 	var (
-		data *model.ApiUserCheckNickNameReq
+		data *model.UserApiCheckNickNameReq
 	)
 	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())

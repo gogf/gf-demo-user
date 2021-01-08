@@ -14,7 +14,7 @@ var User = new(serviceUser)
 type serviceUser struct{}
 
 // 用户注册
-func (s *serviceUser) SignUp(r *model.ServiceUserSignUpReq) error {
+func (s *serviceUser) SignUp(r *model.UserServiceSignUpReq) error {
 	// 昵称为非必需参数，默认使用账号名称
 	if r.Nickname == "" {
 		r.Nickname = r.Passport

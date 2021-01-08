@@ -58,7 +58,7 @@ func (a *apiChat) Index(r *ghttp.Request) {
 // @success 200 {string} string "执行成功后跳转到聊天室页面"
 func (a *apiChat) SetName(r *ghttp.Request) {
 	var (
-		apiReq *model.ApiChatSetNameReq
+		apiReq *model.ChatApiSetNameReq
 	)
 	if err := r.ParseForm(&apiReq); err != nil {
 		r.Session.Set("chat_name_error", gerror.Current(err).Error())

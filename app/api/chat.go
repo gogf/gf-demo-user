@@ -19,9 +19,9 @@ import (
 )
 
 // 聊天管理器
-var Chat = &apiChat{}
+var Chat = &chatApi{}
 
-type apiChat struct{}
+type chatApi struct{}
 
 const (
 	// SendInterval 允许客户端发送聊天消息的间隔时间
@@ -40,7 +40,7 @@ var (
 // @produce html
 // @router  /chat/index [GET]
 // @success 200 {string} string "执行结果"
-func (a *apiChat) Index(r *ghttp.Request) {
+func (a *chatApi) Index(r *ghttp.Request) {
 	view := r.GetView()
 	if r.Session.Contains("chat_name") {
 		view.Assign("tplMain", "chat/include/chat.html")
@@ -56,7 +56,7 @@ func (a *apiChat) Index(r *ghttp.Request) {
 // @produce html
 // @router  /chat/setname [GET]
 // @success 200 {string} string "执行成功后跳转到聊天室页面"
-func (a *apiChat) SetName(r *ghttp.Request) {
+func (a *chatApi) SetName(r *ghttp.Request) {
 	var (
 		apiReq *model.ChatApiSetNameReq
 	)
@@ -80,7 +80,7 @@ func (a *apiChat) SetName(r *ghttp.Request) {
 // @description 通过WebSocket连接该接口发送任意数据。
 // @tags    聊天室
 // @router  /chat/websocket [POST]
-func (a *apiChat) WebSocket(r *ghttp.Request) {
+func (a *chatApi) WebSocket(r *ghttp.Request) {
 	msg := &model.ChatMsg{}
 
 	// 初始化WebSocket请求
@@ -172,7 +172,7 @@ func (a *apiChat) WebSocket(r *ghttp.Request) {
 
 // 向客户端写入消息。
 // 内部方法不会自动注册到路由中。
-func (a *apiChat) write(ws *ghttp.WebSocket, msg model.ChatMsg) error {
+func (a *chatApi) write(ws *ghttp.WebSocket, msg model.ChatMsg) error {
 	msgBytes, err := gjson.Encode(msg)
 	if err != nil {
 		return err
@@ -182,7 +182,7 @@ func (a *apiChat) write(ws *ghttp.WebSocket, msg model.ChatMsg) error {
 
 // 向所有客户端群发消息。
 // 内部方法不会自动注册到路由中。
-func (a *apiChat) writeGroup(msg model.ChatMsg) error {
+func (a *chatApi) writeGroup(msg model.ChatMsg) error {
 	b, err := gjson.Encode(msg)
 	if err != nil {
 		return err
@@ -198,7 +198,7 @@ func (a *apiChat) writeGroup(msg model.ChatMsg) error {
 
 // 向客户端返回用户列表。
 // 内部方法不会自动注册到路由中。
-func (a *apiChat) writeUserListToClient() error {
+func (a *chatApi) writeUserListToClient() error {
 	array := garray.NewSortedStrArray()
 	names.Iterator(func(v string) bool {
 		array.Add(v)

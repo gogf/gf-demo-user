@@ -12,12 +12,12 @@ import (
 // and custom defined data operations functions management. You can define
 // methods on it to extend its functionality as you wish.
 type userDao struct {
-	*internal.UserDao
+	internal.UserDao
 }
 
 var (
 	// User is globally public accessible object for table user operations.
-	User = &userDao{
+	User = userDao{
 		internal.User,
 	}
 )

@@ -6,7 +6,7 @@ import (
 )
 
 // Session管理服务
-var Session = new(sessionService)
+var Session = sessionService{}
 
 type sessionService struct{}
 

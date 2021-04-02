@@ -9,7 +9,7 @@ import (
 )
 
 // 中间件管理服务
-var User = new(userService)
+var User = userService{}
 
 type userService struct{}
 

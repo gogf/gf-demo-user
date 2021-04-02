@@ -7,7 +7,7 @@ import (
 )
 
 // 中间件管理服务
-var Middleware = new(middlewareService)
+var Middleware = middlewareService{}
 
 type middlewareService struct{}
 

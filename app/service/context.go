@@ -7,7 +7,7 @@ import (
 )
 
 // 上下文管理服务
-var Context = new(contextService)
+var Context = contextService{}
 
 type contextService struct{}
 

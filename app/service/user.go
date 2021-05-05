@@ -51,7 +51,7 @@ func (s *userService) SignIn(ctx context.Context, passport, password string) err
 		return errors.New("账号或密码错误")
 	}
 	if err := Session.SetUser(ctx, user); err != nil {
-		return nil
+		return err
 	}
 	Context.SetUser(ctx, &model.ContextUser{
 		Id:       user.Id,

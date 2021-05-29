@@ -43,7 +43,8 @@ func (s *userService) IsSignedIn(ctx context.Context) bool {
 
 // 用户登录，成功返回用户信息，否则返回nil; passport应当会md5值字符串
 func (s *userService) SignIn(ctx context.Context, passport, password string) error {
-	user, err := dao.User.FindOne("passport=? and password=?", passport, password)
+	var user *model.User
+	err := dao.User.Where("passport=? and password=?", passport, password).Scan(&user)
 	if err != nil {
 		return err
 	}

@@ -14,7 +14,6 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gcache"
-	"github.com/gogf/gf/util/gvalid"
 	"time"
 )
 
@@ -128,7 +127,7 @@ func (a *chatApi) WebSocket(r *ghttp.Request) {
 			continue
 		}
 		// 数据校验
-		if err := gvalid.CheckStruct(msg, nil); err != nil {
+		if err := g.Validator().Ctx(r.Context()).CheckStruct(msg); err != nil {
 			a.write(ws, model.ChatMsg{
 				Type: "error",
 				Data: gerror.Current(err).Error(),

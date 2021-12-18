@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gf-demos
+  labels:
+    app: gf-demos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gf-demos
+  template:
+    metadata:
+      labels:
+        app: gf-demos
+    spec:
+      containers:
+        - name : main
+          image: gf-demos
+          imagePullPolicy: Always
+

@@ -18,12 +18,12 @@ var (
 )
 
 // Middleware returns the interface of Middleware service.
-func Middleware() SMiddleware {
-	return insMiddleware
+func Middleware() *SMiddleware {
+	return &insMiddleware
 }
 
 // Ctx injects custom business context variable into context of current request.
-func (s SMiddleware) Ctx(r *ghttp.Request) {
+func (s *SMiddleware) Ctx(r *ghttp.Request) {
 	customCtx := &model.Context{
 		Session: r.Session,
 	}
@@ -40,7 +40,7 @@ func (s SMiddleware) Ctx(r *ghttp.Request) {
 }
 
 // Auth validates the request to allow only signed-in users visit.
-func (s SMiddleware) Auth(r *ghttp.Request) {
+func (s *SMiddleware) Auth(r *ghttp.Request) {
 	if User().IsSignedIn(r.Context()) {
 		r.Middleware.Next()
 	} else {
@@ -49,7 +49,7 @@ func (s SMiddleware) Auth(r *ghttp.Request) {
 }
 
 // CORS allows Cross-origin resource sharing.
-func (s SMiddleware) CORS(r *ghttp.Request) {
+func (s *SMiddleware) CORS(r *ghttp.Request) {
 	r.Response.CORSDefault()
 	r.Middleware.Next()
 }

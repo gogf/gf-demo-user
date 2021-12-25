@@ -19,17 +19,17 @@ import (
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
-var Chat = &handlerChat{
+var Chat = hChat{
 	Users: gmap.New(true),
 	Names: gset.NewStrSet(true),
 }
 
-type handlerChat struct {
+type hChat struct {
 	Users *gmap.Map    // All users in chat.
 	Names *gset.StrSet // All names in chat for unique name validation.
 }
 
-func (h *handlerChat) Index(ctx context.Context, req *apiv1.ChatIndexReq) (res *apiv1.ChatIndexRes, err error) {
+func (h *hChat) Index(ctx context.Context, req *apiv1.ChatIndexReq) (res *apiv1.ChatIndexRes, err error) {
 	var (
 		r = g.RequestFromCtx(ctx)
 	)
@@ -43,7 +43,7 @@ func (h *handlerChat) Index(ctx context.Context, req *apiv1.ChatIndexReq) (res *
 	return
 }
 
-func (h *handlerChat) Name(ctx context.Context, req *apiv1.ChatNameReq) (res *apiv1.ChatNameRes, err error) {
+func (h *hChat) Name(ctx context.Context, req *apiv1.ChatNameReq) (res *apiv1.ChatNameRes, err error) {
 	var (
 		session = g.RequestFromCtx(ctx).Session
 	)
@@ -62,7 +62,7 @@ func (h *handlerChat) Name(ctx context.Context, req *apiv1.ChatNameReq) (res *ap
 	return
 }
 
-func (h *handlerChat) Websocket(ctx context.Context, req *apiv1.ChatWebsocketReq) (res *apiv1.ChatWebsocketRes, err error) {
+func (h *hChat) Websocket(ctx context.Context, req *apiv1.ChatWebsocketReq) (res *apiv1.ChatWebsocketRes, err error) {
 	var (
 		r       = g.RequestFromCtx(ctx)
 		ws      *ghttp.WebSocket
@@ -141,7 +141,7 @@ func (h *handlerChat) Websocket(ctx context.Context, req *apiv1.ChatWebsocketReq
 }
 
 // write sends message to current client.
-func (h *handlerChat) write(ws *ghttp.WebSocket, msg model.ChatMsg) error {
+func (h *hChat) write(ws *ghttp.WebSocket, msg model.ChatMsg) error {
 	msgBytes, err := gjson.Encode(msg)
 	if err != nil {
 		return err
@@ -150,7 +150,7 @@ func (h *handlerChat) write(ws *ghttp.WebSocket, msg model.ChatMsg) error {
 }
 
 // writeGroup sends message to all clients.
-func (h *handlerChat) writeGroup(msg model.ChatMsg) error {
+func (h *hChat) writeGroup(msg model.ChatMsg) error {
 	b, err := gjson.Encode(msg)
 	if err != nil {
 		return err
@@ -165,7 +165,7 @@ func (h *handlerChat) writeGroup(msg model.ChatMsg) error {
 }
 
 // writeGroupWithTypeList sends "list" type message to all clients that can update users list in each client.
-func (h *handlerChat) writeGroupWithTypeList() error {
+func (h *hChat) writeGroupWithTypeList() error {
 	array := garray.NewSortedStrArray()
 	h.Names.Iterator(func(v string) bool {
 		array.Add(v)

@@ -18,18 +18,18 @@ var (
 )
 
 // Session returns the interface of Session service.
-func Session() SSession {
-	return insSession
+func Session() *SSession {
+	return &insSession
 }
 
 // SetUser sets user into the session.
-func (s SSession) SetUser(ctx context.Context, user *entity.User) error {
+func (s *SSession) SetUser(ctx context.Context, user *entity.User) error {
 	return Context().Get(ctx).Session.Set(consts.UserSessionKey, user)
 }
 
 // GetUser retrieves and returns the user from session.
 // It returns nil if the user did not sign in.
-func (s SSession) GetUser(ctx context.Context) *entity.User {
+func (s *SSession) GetUser(ctx context.Context) *entity.User {
 	customCtx := Context().Get(ctx)
 	if customCtx != nil {
 		if v := customCtx.Session.MustGet(consts.UserSessionKey); !v.IsNil() {
@@ -42,7 +42,7 @@ func (s SSession) GetUser(ctx context.Context) *entity.User {
 }
 
 // RemoveUser removes user rom session.
-func (s SSession) RemoveUser(ctx context.Context) error {
+func (s *SSession) RemoveUser(ctx context.Context) error {
 	customCtx := Context().Get(ctx)
 	if customCtx != nil {
 		return customCtx.Session.Remove(consts.UserSessionKey)

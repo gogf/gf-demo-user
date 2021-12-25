@@ -20,24 +20,28 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
 			s.Group("/", func(group *ghttp.RouterGroup) {
+				// Group middlewares.
 				group.Middleware(
-					service.Middleware.Ctx,
-					service.Middleware.CORS,
+					service.Middleware().Ctx,
+					service.Middleware().CORS,
 					ghttp.MiddlewareHandlerResponse,
 				)
+				// Register route handlers.
 				group.Bind(
 					handler.Chat,
 					handler.User,
 				)
 				// Special handler that needs authentication.
 				group.Group("/", func(group *ghttp.RouterGroup) {
-					group.Middleware(service.Middleware.Auth)
+					group.Middleware(service.Middleware().Auth)
 					group.ALLMap(g.Map{
 						"/user/profile": handler.User.Profile,
 					})
 				})
 			})
+			// Custom enhance API document.
 			enhanceOpenAPIDoc(s)
+			// Just run the server.
 			s.Run()
 			return nil
 		},

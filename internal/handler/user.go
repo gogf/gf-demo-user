@@ -16,7 +16,7 @@ var (
 type handlerUser struct{}
 
 func (a *handlerUser) SignUp(ctx context.Context, req *apiv1.UserSignUpReq) (res *apiv1.UserSignUpRes, err error) {
-	err = service.User.Create(ctx, model.UserCreateInput{
+	err = service.User().Create(ctx, model.UserCreateInput{
 		Passport: req.Passport,
 		Password: req.Password,
 		Nickname: req.Nickname,
@@ -24,7 +24,7 @@ func (a *handlerUser) SignUp(ctx context.Context, req *apiv1.UserSignUpReq) (res
 	return
 }
 func (a *handlerUser) SignIn(ctx context.Context, req *apiv1.UserSignInReq) (res *apiv1.UserSignInRes, err error) {
-	err = service.User.SignIn(ctx, model.UserSignInInput{
+	err = service.User().SignIn(ctx, model.UserSignInInput{
 		Passport: req.Passport,
 		Password: req.Password,
 	})
@@ -33,18 +33,18 @@ func (a *handlerUser) SignIn(ctx context.Context, req *apiv1.UserSignInReq) (res
 
 func (a *handlerUser) IsSignedIn(ctx context.Context, req *apiv1.UserIsSignedInReq) (res *apiv1.UserIsSignedInRes, err error) {
 	res = &apiv1.UserIsSignedInRes{
-		OK: service.User.IsSignedIn(ctx),
+		OK: service.User().IsSignedIn(ctx),
 	}
 	return
 }
 
 func (a *handlerUser) SignOut(ctx context.Context, req *apiv1.UserSignOutReq) (res *apiv1.UserSignOutRes, err error) {
-	err = service.User.SignOut(ctx)
+	err = service.User().SignOut(ctx)
 	return
 }
 
 func (a *handlerUser) CheckPassport(ctx context.Context, req *apiv1.UserCheckPassportReq) (res *apiv1.UserCheckPassportRes, err error) {
-	available, err := service.User.IsPassportAvailable(ctx, req.Passport)
+	available, err := service.User().IsPassportAvailable(ctx, req.Passport)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (a *handlerUser) CheckPassport(ctx context.Context, req *apiv1.UserCheckPas
 }
 
 func (a *handlerUser) CheckNickName(ctx context.Context, req *apiv1.UserCheckNickNameReq) (res *apiv1.UserCheckNickNameRes, err error) {
-	available, err := service.User.IsNicknameAvailable(ctx, req.Nickname)
+	available, err := service.User().IsNicknameAvailable(ctx, req.Nickname)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (a *handlerUser) CheckNickName(ctx context.Context, req *apiv1.UserCheckNic
 
 func (a *handlerUser) Profile(ctx context.Context, req *apiv1.UserProfileReq) (res *apiv1.UserProfileRes, err error) {
 	res = &apiv1.UserProfileRes{
-		User: service.User.GetProfile(ctx),
+		User: service.User().GetProfile(ctx),
 	}
 	return
 }

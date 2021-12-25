@@ -7,17 +7,28 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 )
 
-var Middleware = serviceMiddleware{}
+type (
+	// SMiddleware is service struct of module Middleware.
+	SMiddleware struct{}
+)
 
-type serviceMiddleware struct{}
+var (
+	// insMiddleware is the instance of service Middleware.
+	insMiddleware = SMiddleware{}
+)
+
+// Middleware returns the interface of Middleware service.
+func Middleware() SMiddleware {
+	return insMiddleware
+}
 
 // Ctx injects custom business context variable into context of current request.
-func (s *serviceMiddleware) Ctx(r *ghttp.Request) {
+func (s SMiddleware) Ctx(r *ghttp.Request) {
 	customCtx := &model.Context{
 		Session: r.Session,
 	}
-	Context.Init(r, customCtx)
-	if user := Session.GetUser(r.Context()); user != nil {
+	Context().Init(r, customCtx)
+	if user := Session().GetUser(r.Context()); user != nil {
 		customCtx.User = &model.ContextUser{
 			Id:       user.Id,
 			Passport: user.Passport,
@@ -29,8 +40,8 @@ func (s *serviceMiddleware) Ctx(r *ghttp.Request) {
 }
 
 // Auth validates the request to allow only signed-in users visit.
-func (s *serviceMiddleware) Auth(r *ghttp.Request) {
-	if User.IsSignedIn(r.Context()) {
+func (s SMiddleware) Auth(r *ghttp.Request) {
+	if User().IsSignedIn(r.Context()) {
 		r.Middleware.Next()
 	} else {
 		r.Response.WriteStatus(http.StatusForbidden)
@@ -38,7 +49,7 @@ func (s *serviceMiddleware) Auth(r *ghttp.Request) {
 }
 
 // CORS allows Cross-origin resource sharing.
-func (s *serviceMiddleware) CORS(r *ghttp.Request) {
+func (s SMiddleware) CORS(r *ghttp.Request) {
 	r.Response.CORSDefault()
 	r.Middleware.Next()
 }

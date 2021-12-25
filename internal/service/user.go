@@ -12,16 +12,6 @@ import (
 )
 
 type (
-	// IUser is service interface of module User.
-	IUser interface {
-		Create(ctx context.Context, in model.UserCreateInput) (err error)
-		IsSignedIn(ctx context.Context) bool
-		SignIn(ctx context.Context, in model.UserSignInInput) (err error)
-		SignOut(ctx context.Context) error
-		IsPassportAvailable(ctx context.Context, passport string) (bool, error)
-		IsNicknameAvailable(ctx context.Context, nickname string) (bool, error)
-		GetProfile(ctx context.Context) *entity.User
-	}
 	// SUser is service struct of module User.
 	SUser struct{}
 )
@@ -32,7 +22,7 @@ var (
 )
 
 // User returns the interface of User service.
-func User() IUser {
+func User() SUser {
 	return insUser
 }
 

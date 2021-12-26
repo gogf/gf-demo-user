@@ -8,22 +8,22 @@ import (
 )
 
 type (
-	// SMiddleware is service struct of module Middleware.
-	SMiddleware struct{}
+	// sMiddleware is service struct of module Middleware.
+	sMiddleware struct{}
 )
 
 var (
 	// insMiddleware is the instance of service Middleware.
-	insMiddleware = SMiddleware{}
+	insMiddleware = sMiddleware{}
 )
 
 // Middleware returns the interface of Middleware service.
-func Middleware() *SMiddleware {
+func Middleware() *sMiddleware {
 	return &insMiddleware
 }
 
 // Ctx injects custom business context variable into context of current request.
-func (s *SMiddleware) Ctx(r *ghttp.Request) {
+func (s *sMiddleware) Ctx(r *ghttp.Request) {
 	customCtx := &model.Context{
 		Session: r.Session,
 	}
@@ -40,7 +40,7 @@ func (s *SMiddleware) Ctx(r *ghttp.Request) {
 }
 
 // Auth validates the request to allow only signed-in users visit.
-func (s *SMiddleware) Auth(r *ghttp.Request) {
+func (s *sMiddleware) Auth(r *ghttp.Request) {
 	if User().IsSignedIn(r.Context()) {
 		r.Middleware.Next()
 	} else {
@@ -49,7 +49,7 @@ func (s *SMiddleware) Auth(r *ghttp.Request) {
 }
 
 // CORS allows Cross-origin resource sharing.
-func (s *SMiddleware) CORS(r *ghttp.Request) {
+func (s *sMiddleware) CORS(r *ghttp.Request) {
 	r.Response.CORSDefault()
 	r.Middleware.Next()
 }

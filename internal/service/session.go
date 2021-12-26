@@ -8,28 +8,28 @@ import (
 )
 
 type (
-	// SSession is service struct of module Session.
-	SSession struct{}
+	// sSession is service struct of module Session.
+	sSession struct{}
 )
 
 var (
 	// insSession is the instance of service Session.
-	insSession = SSession{}
+	insSession = sSession{}
 )
 
 // Session returns the interface of Session service.
-func Session() *SSession {
+func Session() *sSession {
 	return &insSession
 }
 
 // SetUser sets user into the session.
-func (s *SSession) SetUser(ctx context.Context, user *entity.User) error {
+func (s *sSession) SetUser(ctx context.Context, user *entity.User) error {
 	return Context().Get(ctx).Session.Set(consts.UserSessionKey, user)
 }
 
 // GetUser retrieves and returns the user from session.
 // It returns nil if the user did not sign in.
-func (s *SSession) GetUser(ctx context.Context) *entity.User {
+func (s *sSession) GetUser(ctx context.Context) *entity.User {
 	customCtx := Context().Get(ctx)
 	if customCtx != nil {
 		if v := customCtx.Session.MustGet(consts.UserSessionKey); !v.IsNil() {
@@ -42,7 +42,7 @@ func (s *SSession) GetUser(ctx context.Context) *entity.User {
 }
 
 // RemoveUser removes user rom session.
-func (s *SSession) RemoveUser(ctx context.Context) error {
+func (s *sSession) RemoveUser(ctx context.Context) error {
 	customCtx := Context().Get(ctx)
 	if customCtx != nil {
 		return customCtx.Session.Remove(consts.UserSessionKey)

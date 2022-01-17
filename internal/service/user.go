@@ -6,7 +6,7 @@ import (
 	"github.com/gogf/gf-demos/v2/internal/model"
 	"github.com/gogf/gf-demos/v2/internal/model/entity"
 	"github.com/gogf/gf-demos/v2/internal/service/internal/dao"
-	"github.com/gogf/gf-demos/v2/internal/service/internal/dto"
+	"github.com/gogf/gf-demos/v2/internal/service/internal/do"
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 )
@@ -52,7 +52,7 @@ func (s *sUser) Create(ctx context.Context, in model.UserCreateInput) (err error
 		return gerror.Newf(`Nickname "%s" is already token by others`, in.Nickname)
 	}
 	return dao.User.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
-		_, err = dao.User.Ctx(ctx).Data(dto.User{
+		_, err = dao.User.Ctx(ctx).Data(do.User{
 			Passport: in.Passport,
 			Password: in.Password,
 			Nickname: in.Nickname,
@@ -72,7 +72,7 @@ func (s *sUser) IsSignedIn(ctx context.Context) bool {
 // SignIn creates session for given user account.
 func (s *sUser) SignIn(ctx context.Context, in model.UserSignInInput) (err error) {
 	var user *entity.User
-	err = dao.User.Ctx(ctx).Where(dto.User{
+	err = dao.User.Ctx(ctx).Where(do.User{
 		Passport: in.Passport,
 		Password: in.Password,
 	}).Scan(&user)
@@ -100,7 +100,7 @@ func (s *sUser) SignOut(ctx context.Context) error {
 
 // IsPassportAvailable checks and returns given passport is available for signing up.
 func (s *sUser) IsPassportAvailable(ctx context.Context, passport string) (bool, error) {
-	count, err := dao.User.Ctx(ctx).Where(dto.User{
+	count, err := dao.User.Ctx(ctx).Where(do.User{
 		Passport: passport,
 	}).Count()
 	if err != nil {
@@ -111,7 +111,7 @@ func (s *sUser) IsPassportAvailable(ctx context.Context, passport string) (bool,
 
 // IsNicknameAvailable checks and returns given nickname is available for signing up.
 func (s *sUser) IsNicknameAvailable(ctx context.Context, nickname string) (bool, error) {
-	count, err := dao.User.Ctx(ctx).Where(dto.User{
+	count, err := dao.User.Ctx(ctx).Where(do.User{
 		Nickname: nickname,
 	}).Count()
 	if err != nil {

@@ -4,7 +4,7 @@
 
 ### 1. You need a go development environment setup before everything starts taking off.
 
-### 2. Use `git clone` cloing the repo to your local folder. 
+### 2. Use `git clone` to clone the repo to your local folder. 
 ```
 git clone https://github.com/gogf/gf-demo-user
 ```

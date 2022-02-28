@@ -1,4 +1,4 @@
-# An user API service demonstration using GoFrame
+# A simple user API service demonstration using GoFrame
 
 ## Installation
 

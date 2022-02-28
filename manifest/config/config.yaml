@@ -1,7 +1,6 @@
 # HTTP Server.
 server:
   address:             ":8199"
-  serverRoot:          "resource/public"
   dumpRouterMap:       true
   routeOverWrite:      true
   accessLogEnabled:    true

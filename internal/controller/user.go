@@ -3,9 +3,9 @@ package controller
 import (
 	"context"
 
-	"github.com/gogf/gf-demos/v2/apiv1"
-	"github.com/gogf/gf-demos/v2/internal/model"
-	"github.com/gogf/gf-demos/v2/internal/service"
+	"github.com/gogf/gf-demo-user/v2/apiv1"
+	"github.com/gogf/gf-demo-user/v2/internal/model"
+	"github.com/gogf/gf-demo-user/v2/internal/service"
 	"github.com/gogf/gf/v2/errors/gerror"
 )
 

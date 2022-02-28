@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gogf/gf-demos/v2/internal/cmd"
+	"github.com/gogf/gf-demo-user/v2/internal/cmd"
 	"github.com/gogf/gf/v2/os/gctx"
 )
 

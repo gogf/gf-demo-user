@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"github.com/gogf/gf-demos/v2/internal/service/internal/dao/internal"
+	"github.com/gogf/gf-demo-user/v2/internal/service/internal/dao/internal"
 )
 
 // userDao is the data access object for table user.

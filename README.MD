@@ -1,8 +1,4 @@
-# GoFrame Demos
-
-This repo implements some simple demos using GoFrame.
-1. A simple websocket chat service.
-1. Basic API examples for user service.
+# An user API service demonstration using GoFrame
 
 ## Installation
 
@@ -10,7 +6,7 @@ This repo implements some simple demos using GoFrame.
 
 ### 2. Use `git clone` cloing the repo to your local folder. 
 ```
-git clone https://github.com/gogf/gf-demos
+git clone https://github.com/gogf/gf-demo-user
 ```
 
 ### 3. Import `manifest/sql/create.sql` to your database. 
@@ -19,51 +15,35 @@ git clone https://github.com/gogf/gf-demos
 
 ### 5. Run command `go run main.go`, and you'll see something as follows if success:
 ```
-  ADDRESS | METHOD |        ROUTE         |                                  HANDLER                                  |            MIDDLEWARE              
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | ALL    | /*                   | github.com/gogf/gf/v2/net/ghttp.internalMiddlewareServerTracing           | GLOBAL MIDDLEWARE                  
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | ALL    | /api.json            | github.com/gogf/gf/v2/net/ghttp.(*Server).openapiSpec                     |                                    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | GET    | /chat                | github.com/gogf/gf-demos/v2/internal/handler.(*handlerChat).Index         | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | POST   | /chat/name           | github.com/gogf/gf-demos/v2/internal/handler.(*handlerChat).Name          | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | GET    | /chat/websocket      | github.com/gogf/gf-demos/v2/internal/handler.(*handlerChat).Websocket     | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | ALL    | /swagger/*           | github.com/gogf/gf/v2/net/ghttp.(*Server).swaggerUI                       | HOOK_BEFORE_SERVE                  
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | POST   | /user/check-passport | github.com/gogf/gf-demos/v2/internal/handler.(*handlerUser).CheckPassport | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | POST   | /user/is-signed-in   | github.com/gogf/gf-demos/v2/internal/handler.(*handlerUser).IsSignedIn    | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | GET    | /user/profile        | github.com/gogf/gf-demos/v2/internal/handler.(*handlerUser).Profile       | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-          |        |                      |                                                                           | service.(*serviceMiddleware).Auth  
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | POST   | /user/sign-in        | github.com/gogf/gf-demos/v2/internal/handler.(*handlerUser).SignIn        | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | POST   | /user/sign-out       | github.com/gogf/gf-demos/v2/internal/handler.(*handlerUser).SignOut       | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
-  :8199   | POST   | /user/sign-up        | github.com/gogf/gf-demos/v2/internal/handler.(*handlerUser).SignUp        | service.(*serviceMiddleware).Ctx   
-          |        |                      |                                                                           | service.(*serviceMiddleware).CORS  
-          |        |                      |                                                                           | ghttp.MiddlewareHandlerResponse    
-----------|--------|----------------------|---------------------------------------------------------------------------|------------------------------------
+  ADDRESS | METHOD |        ROUTE         |                                  HANDLER                                   |         MIDDLEWARE           
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | ALL    | /*                   | github.com/gogf/gf/v2/net/ghttp.internalMiddlewareServerTracing            | GLOBAL MIDDLEWARE            
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | ALL    | /*                   | github.com/gogf/gf/v2/net/ghttp.MiddlewareHandlerResponse                  | GLOBAL MIDDLEWARE            
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | ALL    | /api.json            | github.com/gogf/gf/v2/net/ghttp.(*Server).openapiSpec                      |                              
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | ALL    | /swagger/*           | github.com/gogf/gf/v2/net/ghttp.(*Server).swaggerUI                        | HOOK_BEFORE_SERVE            
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | POST   | /user/check-passport | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).CheckPassport | service.(*sMiddleware).Ctx   
+          |        |                      |                                                                            | service.(*sMiddleware).CORS  
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | POST   | /user/is-signed-in   | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).IsSignedIn    | service.(*sMiddleware).Ctx   
+          |        |                      |                                                                            | service.(*sMiddleware).CORS  
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | GET    | /user/profile        | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).Profile       | service.(*sMiddleware).Ctx   
+          |        |                      |                                                                            | service.(*sMiddleware).CORS  
+          |        |                      |                                                                            | service.(*sMiddleware).Auth  
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | POST   | /user/sign-in        | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).SignIn        | service.(*sMiddleware).Ctx   
+          |        |                      |                                                                            | service.(*sMiddleware).CORS  
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | POST   | /user/sign-out       | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).SignOut       | service.(*sMiddleware).Ctx   
+          |        |                      |                                                                            | service.(*sMiddleware).CORS  
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | POST   | /user/sign-up        | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).SignUp        | service.(*sMiddleware).Ctx   
+          |        |                      |                                                                            | service.(*sMiddleware).CORS  
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
 ```
 
 # GoFrame Sites
@@ -71,4 +51,4 @@ git clone https://github.com/gogf/gf-demos
 * [https://github.com/gogf/gf](https://github.com/gogf/gf)
 
 ### GoFrame Home
-* [https://goframe.org](https://goframe.org)
+* [https://goframe.org](https://goframe.org) (中文)

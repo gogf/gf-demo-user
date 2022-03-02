@@ -61,10 +61,4 @@ func enhanceOpenAPIDoc(s *ghttp.Server) {
 			URL:  "https://goframe.org",
 		},
 	}
-
-	// Sort the tags in custom sequence.
-	openapi.Tags = &goai.Tags{
-		{Name: consts.OpenAPITagNameUser},
-		{Name: consts.OpenAPITagNameChat},
-	}
 }

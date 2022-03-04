@@ -41,7 +41,11 @@ start:
 # Build docker image.
 .PHONY: image
 image: cli.install
-	$(eval _TAG  = $(if ${TAG},  ${TAG}, latest))
+	$(eval _TAG  = $(shell git log -1 --format="%cd.%h" --date=format:"%Y%m%d%H%M%S"))
+ifneq (, $(shell git status --porcelain 2>/dev/null))
+	$(eval _TAG  = $(_TAG).dirty)
+endif
+	$(eval _TAG  = $(if ${TAG},  ${TAG}, $(_TAG)))
 	$(eval _PUSH = $(if ${PUSH}, ${PUSH}, ))
 	@gf docker -p -b "-a amd64 -s linux -p temp" -t $(DOCKER_NAME):${_TAG};
 

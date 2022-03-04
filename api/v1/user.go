@@ -1,4 +1,4 @@
-package apiv1
+package v1
 
 import (
 	"github.com/gogf/gf-demo-user/v2/internal/model/entity"

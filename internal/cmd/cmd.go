@@ -24,7 +24,7 @@ var (
 				// Group middlewares.
 				group.Middleware(
 					service.Middleware().Ctx,
-					service.Middleware().CORS,
+					ghttp.MiddlewareCORS,
 				)
 				// Register route handlers.
 				group.Bind(

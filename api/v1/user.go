@@ -35,7 +35,7 @@ type UserCheckPassportReq struct {
 type UserCheckPassportRes struct{}
 
 type UserCheckNickNameReq struct {
-	g.Meta   `path:"/user/check-passport" method:"post" tags:"UserService" summary:"Check nickname available"`
+	g.Meta   `path:"/user/check-nickname" method:"post" tags:"UserService" summary:"Check nickname available"`
 	Nickname string `v:"required"`
 }
 type UserCheckNickNameRes struct{}

@@ -28,6 +28,9 @@ git clone https://github.com/gogf/gf-demo-user
   :8199   | POST   | /user/check-passport | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).CheckPassport | service.(*sMiddleware).Ctx   
           |        |                      |                                                                            | service.(*sMiddleware).CORS  
 ----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
+  :8199   | POST   | /user/check-nickname | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).CheckNickName | service.(*sMiddleware).Ctx   
+          |        |                      |                                                                            | service.(*sMiddleware).CORS  
+----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
   :8199   | POST   | /user/is-signed-in   | github.com/gogf/gf-demo-user/v2/internal/controller.(*cUser).IsSignedIn    | service.(*sMiddleware).Ctx   
           |        |                      |                                                                            | service.(*sMiddleware).CORS  
 ----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------

@@ -5,13 +5,16 @@
 package dao
 
 import (
-	"github.com/gogf/gf-demo-user/v2/internal/service/internal/dao/internal"
+	"github.com/gogf/gf-demo-user/v2/internal/dao/internal"
 )
+
+// internalUserDao is internal type for wrapping internal DAO implements.
+type internalUserDao = *internal.UserDao
 
 // userDao is the data access object for table user.
 // You can define custom methods on it to extend its functionality as you wish.
 type userDao struct {
-	*internal.UserDao
+	internalUserDao
 }
 
 var (

@@ -1,6 +1,6 @@
 # HTTP Server.
 server:
-  address:             ":8199"
+  address:             ":8000"
   dumpRouterMap:       true
   routeOverWrite:      true
   accessLogEnabled:    true

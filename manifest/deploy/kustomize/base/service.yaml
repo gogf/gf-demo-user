@@ -4,9 +4,9 @@ metadata:
   name: gf-demos
 spec:
   ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 8000
+    - port: 80
+      protocol: TCP
+      targetPort: 8000
   selector:
     app: gf-demos
 

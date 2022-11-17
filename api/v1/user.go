@@ -1,8 +1,9 @@
 package v1
 
 import (
-	"github.com/gogf/gf-demo-user/v2/internal/model/entity"
 	"github.com/gogf/gf/v2/frame/g"
+
+	"github.com/gogf/gf-demo-user/v2/internal/model/entity"
 )
 
 type UserProfileReq struct {

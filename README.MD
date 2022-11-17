@@ -4,16 +4,18 @@
 
 ### 1. You need a go development environment setup before everything starts taking off.
 
-### 2. Use `git clone` to clone the repo to your local folder. 
+### 2. Use `git clone` to clone the repo to your local folder.
+
 ```
 git clone https://github.com/gogf/gf-demo-user
 ```
 
-### 3. Import `manifest/sql/create.sql` to your database. 
+### 3. Import `manifest/sql/create.sql` to your database.
 
 ### 4. Update `manifest/config/config.yaml` according to your local configurations if necessary.
 
 ### 5. Run command `go run main.go`, and you'll see something as follows if success:
+
 ```
   ADDRESS | METHOD |        ROUTE         |                                  HANDLER                                   |         MIDDLEWARE           
 ----------|--------|----------------------|----------------------------------------------------------------------------|------------------------------
@@ -47,8 +49,11 @@ git clone https://github.com/gogf/gf-demo-user
 ```
 
 # GoFrame Sites
+
 ### GoFrame Repo
+
 * [https://github.com/gogf/gf](https://github.com/gogf/gf)
 
 ### GoFrame Home
+
 * [https://goframe.org](https://goframe.org) (中文)

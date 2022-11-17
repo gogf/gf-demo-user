@@ -3,13 +3,14 @@ package user
 import (
 	"context"
 
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
+
 	"github.com/gogf/gf-demo-user/v2/internal/dao"
 	"github.com/gogf/gf-demo-user/v2/internal/model"
 	"github.com/gogf/gf-demo-user/v2/internal/model/do"
 	"github.com/gogf/gf-demo-user/v2/internal/model/entity"
 	"github.com/gogf/gf-demo-user/v2/internal/service"
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
 )
 
 type (

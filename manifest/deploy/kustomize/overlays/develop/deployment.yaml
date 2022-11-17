@@ -6,5 +6,5 @@ spec:
   template:
     spec:
       containers:
-        - name : main
+        - name: main
           image: gf-demos:develop

@@ -15,7 +15,7 @@ spec:
         app: gf-demos
     spec:
       containers:
-        - name : main
+        - name: main
           image: gf-demos
           imagePullPolicy: Always
 

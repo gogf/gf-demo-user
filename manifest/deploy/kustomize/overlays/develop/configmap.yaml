@@ -5,10 +5,10 @@ metadata:
 data:
   config.yaml: |
     server:
-      address:     ":8000"
+      address: ":8000"
       openapiPath: "/api.json"
       swaggerPath: "/swagger"
 
     logger:
-      level : "all"
+      level: "all"
       stdout: true

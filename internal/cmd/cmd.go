@@ -9,7 +9,7 @@ import (
 	"github.com/gogf/gf/v2/os/gcmd"
 
 	"github.com/gogf/gf-demo-user/v2/internal/consts"
-	"github.com/gogf/gf-demo-user/v2/internal/controller"
+	"github.com/gogf/gf-demo-user/v2/internal/controller/user"
 	"github.com/gogf/gf-demo-user/v2/internal/service"
 )
 
@@ -30,13 +30,13 @@ var (
 				)
 				// Register route handlers.
 				group.Bind(
-					controller.User,
+					user.New(),
 				)
 				// Special handler that needs authentication.
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					group.Middleware(service.Middleware().Auth)
 					group.ALLMap(g.Map{
-						"/user/profile": controller.User.Profile,
+						"/user/profile": user.New().Profile,
 					})
 				})
 			})

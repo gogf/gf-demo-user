@@ -18,7 +18,7 @@ func init() {
 	service.RegisterBizCtx(New())
 }
 
-func New() *sBizCtx {
+func New() service.IBizCtx {
 	return &sBizCtx{}
 }
 

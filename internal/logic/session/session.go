@@ -16,7 +16,7 @@ func init() {
 	service.RegisterSession(New())
 }
 
-func New() *sSession {
+func New() service.ISession {
 	return &sSession{}
 }
 

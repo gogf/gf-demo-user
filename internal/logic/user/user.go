@@ -21,7 +21,7 @@ func init() {
 	service.RegisterUser(New())
 }
 
-func New() *sUser {
+func New() service.IUser {
 	return &sUser{}
 }
 

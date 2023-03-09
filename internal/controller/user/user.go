@@ -1,22 +1,23 @@
-package controller
+package user
 
 import (
 	"context"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 
-	v1 "github.com/gogf/gf-demo-user/v2/api/v1"
+	"github.com/gogf/gf-demo-user/v2/api/user/v1"
 	"github.com/gogf/gf-demo-user/v2/internal/model"
 	"github.com/gogf/gf-demo-user/v2/internal/service"
 )
 
-// User is the controller for user.
-var User = cUser{}
+type Controller struct{}
 
-type cUser struct{}
+func New() *Controller {
+	return &Controller{}
+}
 
 // SignUp is the API for user sign up.
-func (c *cUser) SignUp(ctx context.Context, req *v1.UserSignUpReq) (res *v1.UserSignUpRes, err error) {
+func (c *Controller) SignUp(ctx context.Context, req *v1.SignUpReq) (res *v1.SignUpRes, err error) {
 	err = service.User().Create(ctx, model.UserCreateInput{
 		Passport: req.Passport,
 		Password: req.Password,
@@ -26,7 +27,7 @@ func (c *cUser) SignUp(ctx context.Context, req *v1.UserSignUpReq) (res *v1.User
 }
 
 // SignIn is the API for user sign in.
-func (c *cUser) SignIn(ctx context.Context, req *v1.UserSignInReq) (res *v1.UserSignInRes, err error) {
+func (c *Controller) SignIn(ctx context.Context, req *v1.SignInReq) (res *v1.SignInRes, err error) {
 	err = service.User().SignIn(ctx, model.UserSignInInput{
 		Passport: req.Passport,
 		Password: req.Password,
@@ -35,21 +36,21 @@ func (c *cUser) SignIn(ctx context.Context, req *v1.UserSignInReq) (res *v1.User
 }
 
 // IsSignedIn checks and returns whether the user is signed in.
-func (c *cUser) IsSignedIn(ctx context.Context, req *v1.UserIsSignedInReq) (res *v1.UserIsSignedInRes, err error) {
-	res = &v1.UserIsSignedInRes{
+func (c *Controller) IsSignedIn(ctx context.Context, req *v1.IsSignedInReq) (res *v1.IsSignedInRes, err error) {
+	res = &v1.IsSignedInRes{
 		OK: service.User().IsSignedIn(ctx),
 	}
 	return
 }
 
 // SignOut is the API for user sign out.
-func (c *cUser) SignOut(ctx context.Context, req *v1.UserSignOutReq) (res *v1.UserSignOutRes, err error) {
+func (c *Controller) SignOut(ctx context.Context, req *v1.SignOutReq) (res *v1.SignOutRes, err error) {
 	err = service.User().SignOut(ctx)
 	return
 }
 
 // CheckPassport checks and returns whether the user passport is available.
-func (c *cUser) CheckPassport(ctx context.Context, req *v1.UserCheckPassportReq) (res *v1.UserCheckPassportRes, err error) {
+func (c *Controller) CheckPassport(ctx context.Context, req *v1.CheckPassportReq) (res *v1.CheckPassportRes, err error) {
 	available, err := service.User().IsPassportAvailable(ctx, req.Passport)
 	if err != nil {
 		return nil, err
@@ -61,7 +62,7 @@ func (c *cUser) CheckPassport(ctx context.Context, req *v1.UserCheckPassportReq)
 }
 
 // CheckNickName checks and returns whether the user nickname is available.
-func (c *cUser) CheckNickName(ctx context.Context, req *v1.UserCheckNickNameReq) (res *v1.UserCheckNickNameRes, err error) {
+func (c *Controller) CheckNickName(ctx context.Context, req *v1.CheckNickNameReq) (res *v1.CheckNickNameRes, err error) {
 	available, err := service.User().IsNicknameAvailable(ctx, req.Nickname)
 	if err != nil {
 		return nil, err
@@ -73,8 +74,8 @@ func (c *cUser) CheckNickName(ctx context.Context, req *v1.UserCheckNickNameReq)
 }
 
 // Profile returns the user profile.
-func (c *cUser) Profile(ctx context.Context, req *v1.UserProfileReq) (res *v1.UserProfileRes, err error) {
-	res = &v1.UserProfileRes{
+func (c *Controller) Profile(ctx context.Context, req *v1.ProfileReq) (res *v1.ProfileRes, err error) {
+	res = &v1.ProfileRes{
 		User: service.User().GetProfile(ctx),
 	}
 	return

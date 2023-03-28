@@ -50,7 +50,7 @@ func (s *sUser) Create(ctx context.Context, in model.UserCreateInput) (err error
 	if !available {
 		return gerror.Newf(`Nickname "%s" is already token by others`, in.Nickname)
 	}
-	return dao.User.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
+	return dao.User.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		_, err = dao.User.Ctx(ctx).Data(do.User{
 			Passport: in.Passport,
 			Password: in.Password,

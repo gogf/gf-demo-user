@@ -19,6 +19,6 @@ database:
     stdout: true
 
   default:
-    link: "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
+    link: "sqlite::@file(manifest/db/user.db)"
     debug: true
 

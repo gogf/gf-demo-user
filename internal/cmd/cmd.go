@@ -29,14 +29,17 @@ var (
 					ghttp.MiddlewareCORS,
 				)
 				// Register route handlers.
+				var (
+					userCtrl = user.NewV1()
+				)
 				group.Bind(
-					user.New(),
+					userCtrl,
 				)
 				// Special handler that needs authentication.
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					group.Middleware(service.Middleware().Auth)
 					group.ALLMap(g.Map{
-						"/user/profile": user.New().Profile,
+						"/user/profile": userCtrl,
 					})
 				})
 			})

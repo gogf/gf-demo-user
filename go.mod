@@ -8,5 +8,5 @@ require (
 	github.com/gogf/gf/v2 v2.5.4
 	github.com/magiconair/properties v1.8.7 // indirect
 	go.opentelemetry.io/otel/sdk v1.18.0 // indirect
-	golang.org/x/net v0.15.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 )

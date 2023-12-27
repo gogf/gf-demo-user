@@ -39,7 +39,7 @@ var (
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					group.Middleware(service.Middleware().Auth)
 					group.ALLMap(g.Map{
-						"/user/profile": userCtrl,
+						"/user/profile": userCtrl.Profile,
 					})
 				})
 			})
